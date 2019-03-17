@@ -63,7 +63,7 @@ _NOTE: The numeric values used in logical evaluation are:_
 |Full Name|Example|Purpose|
 |:---|:---|:---|
 |__`END`__ |<code>390 __END__</code>|Terminates the program; the last statement in a program must be an END statement.|
-|__`FOR...NEXT`__ |<code>440 __FOR__ J=1 __TO__ N <...> __NEXT__ J</code>|Executes statements between FOR and NEXT the specified number of times (a loop), incrementing the variable by 1.|
+|__`FOR...NEXT`__ |<code>440 __FOR__ J=1 __TO__ N</code>|Executes statements between FOR and NEXT the specified number of times (a loop), incrementing the variable by 1.|
 |__`GOTO`__ |<code>450 __GOTO__ 900</code>|Transfers control (jumps) to specified statement number.|
 |__`GOTO...OF`__ |<code>460 __GOTO__ _n_ __OF__ 100,10,20</code>|Transfers control to the _n_th statement of the statements listed after "OF".|
 |__`GOSUB`__ |<code>470 __GOSUB__ 800</code>|Begins executing the subroutine at specified statement (see `RETURN`)|
