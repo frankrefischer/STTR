@@ -55,8 +55,8 @@ _NOTE: The numeric values used in logical evaluation are:_
 |__`<>`__ |<code>180 IF D6<>(2*D) THEN 700<code>|_expression_ __"does not equal"__ _expression_|
 |__`>`__ |<code>190 IF X>10 THEN 620<code>|_expression_ __"is greater than"__ _expression_|
 |__`<`__ |<code>200 IF R8<P7 THEN 640 <code>|_expression_ __"is less than"__ _expression_|
-|__`>=`__ |<code>210 IF R8>=P7 THEN 710<code>|_expression_ __"is greater than or equal to"__ _expression_
-|__`<=`__ |<code>220 IF X2<=10 THEN 650<code>|_expression_ __"is less than or equal to"__ _expression_
+|__`>=`__ |<code>210 IF R8>=P7 THEN 710<code>|_expression_ __"is greater than or equal to"__ _expression_|
+|__`<=`__ |<code>220 IF X2<=10 THEN 650<code>|_expression_ __"is less than or equal to"__ _expression_|
 
 ## STATEMENTS
 
@@ -71,5 +71,9 @@ _NOTE: The numeric values used in logical evaluation are:_
 |__`IMAGE`__ |<code>500 ___</code>||
 |__`INPUT`__ |<code>510 __INPUT__ X$,Y2,B4</code>|Allows data to be entered from terminal while program is running.|
 |<code>__IF&nbsp;...&nbsp;THEN__</code> |<code>490&nbsp;**IF**&nbsp;A#10&nbsp;**THEN**&nbsp;350</code>|Logical test; transfers control to statement number if "true".|
+|__`NEXT`__|||
+  
 |__`PRINT`__ |<code>540 __PRINT__ A,B,C$</code>|Prints the specified values; 5 fields per line when commas are used as separators, 12 when semicolons are used.|
 |__`REM`__ |<code>630 __REM__ ANY TEXT</code>|Inserts non-executable remarks in a program.||
+|__`RETURN`__ |<code>660 __RETURN__</code>|Subroutine exit; transfers control to the statement following the matching GOSUB.|
+
