@@ -2,6 +2,12 @@
 
 Reference for all commands used in STTR1.
 
+## STRINGS
+_NOTES:_
+1. _A string is 1 to 72 characters enclosed in quotes; it may be assigned to a string variable (an A to Z letter followed by a $)._
+2. _Each string variable used in a program must be dimensional (with a DIM statement) if it has a length of more than one character. The DIM sets the physical or maximum length of a string._
+3. _Substrings are described by subscripted string variables. For example, if A$ = "ABCDEF", A$(2,2) = B, A$(1,4) = "ABCD" and A$(3) = "CDEF"._
+
 ## OPERATORS
 
 _NOTE: The numeric values used in logical evaluation are:_
