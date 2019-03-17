@@ -22,5 +22,6 @@ Scans of a Quick Reference To HP 2000C/F Time-Shared BASIC, dated September 1972
 * http://www.decodesystems.com/hp2000/HP2000_Reference_Card_side_2.jpg
 
 Hewlett-Packard HP-2000 Timeshared BASIC Systems Documentation: https://www.mrynet.com/hp2000/documentation.html  
-- Reference manual: ftp://ftp.mrynet.com/pub/os/HP2000/pdf/2000E_UsersMan.pdf
+- Reference manual: ftp://bitsavers.informatik.uni-stuttgart.de/pdf/hp/2000TSB/22687-90001_AccessBasic9-75.pdf
+- User's manual: ftp://ftp.mrynet.com/pub/os/HP2000/pdf/2000E_UsersMan.pdf
 
