@@ -10,17 +10,17 @@ _NOTE: The numeric values used in logical evaluation are:_
 
 |Symbol|Sample Statement|Purpose/Meaning/Type|
 |:---|:---|:---|
-|**`=`** |<code>****</code>||
-|**`*`** |<code>****</code>||
-|**`/`** |<code>****</code>||
-|**`+`** |<code>****</code>||
-|**`-`** |<code>****</code>||
-|**`=`** |<code>****</code>||
-|**`<>`** |<code>****</code>||
-|**`>`** |<code>****</code>||
-|**`<`** |<code>****</code>||
-|**`>=`** |<code>****</code>||
-|**`<=`** |<code>****</code>||
+|__`=`__ |<code>__100 A = B = C = 0__ </code>||
+|__`*`__ |<code>____</code>||
+|__`/`__ |<code>____<code>||
+|__`+`__ |<code>____<code>||
+|__`-`__ |<code>____<code>||
+|__`=`__ |<code>____<code>||
+|__`<>`__ |<code>____<code>||
+|__`>`__ |<code>____<code>||
+|__`<`__ |<code>____<code>||
+|__`>=`__ |<code>____<code>||
+|__`<=`__ |<code>____<code>||
 
 ## STATEMENTS
 
