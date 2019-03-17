@@ -11,6 +11,28 @@ Variables are used to represent numeric values.
 
 There are two other types of variables, string variables and array variables.
 
+## FORMATTED OUTPUT
+
+The following format specifiers are used in STTR1:
+
+|Format specifier|Meaning|
+|:---|:---|
+|__D__|one digit|
+|__3D__|3 digits, left padded with spaces|
+|__4D__|4 digits, left padded with spaces|
+|__5D__|5 digits, left padded with spaces|
+|__6D__|6 digits, left padded with spaces|
+|__8X__|8 spaces|
+|__9X__|9 spaces|
+|__11X__|11 spaces|
+|__15X__|15 spaces|
+|__3A__|3 characters of a string; left padded with whitespace?|
+|__6A__|6 characters of a string; left padded with whitespace?|
+|__3(3D," :")__|3 times: 3 digits followed by " :"|
+|__8(X,3A)__|8 times: 1 space followed by 3 characters of a string|
+|__8(3X,3D)__|8 times: 3 characters of a string followed by 3 digits|
+
+
 ## FUNCTIONS
 _Functions return a numeric result; they may be used as expressions or parts of expressions. PRINT is used for examples only; other statement types may be used._
 
