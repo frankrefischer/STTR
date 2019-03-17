@@ -2,6 +2,18 @@
 
 Reference for all commands used in STTR1.
 
+## FUNCTIONS
+_Functions return a numeric result; they may be used as expressions or parts of expressions. PRINT is used for examples only; other statement types may be used._
+
+|Full Name|Example&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Purpose|
+|:---|:---|:---|
+|__`DEF FN`__ |<code>__DEF FNA__(X)=(M*X)+B</code>|Allows the programmer to define functions; the function label (A) must be a letter from A to Z; the argument(X) is a dummy variable.|
+|__`ABS(X)`__|<code>310 PRINT __ABS(X)__</code>|Gives the absolute value of the expression (X).|
+|__`INT(X)`__|<code>330 PRINT __INT(X)__</code>|Gives the largest integer &le; the expression (X).|
+|__`RND(X)`__|<code>350 PRINT __RND(X)__</code>|Generates a random number greater than or equal to 0 and less than 1; the argument (X) may have any value. A negative argument is used to restart a sequence of random numbers.|
+|__`SQR(X)`__|<code>360 PRINT __SQR(X)__</code>|Gives the square root of the expression (X); expression must have a positive value.|
+|__`TIM(X)`__|<code>460 PRINT __TIM(X)__</code>|Gives current minute (X=0) or day (X=1).|
+
 ## MATRICES
 _NOTES:_
 1. _Absolute maximum matrix size is 4900 elements._
@@ -34,6 +46,7 @@ _NOTE: The numeric values used in logical evaluation are:_
 |Symbol|Sample Statement|Purpose/Meaning/Type|
 |:---|:---|:---|
 |__`=`__ |<code>100 A = B = C = 0</code>|Assignment operator; assigns a value to a variable.|
+|__`^`__|<code>120 PRINT X^2</code>|Exponentiate (as in X²).|
 |__`*`__ |<code>130 C5 = (A*B)*N2</code>|Multiply|
 |__`/`__ |<code>140 PRINT T5/4<code>|Divide|
 |__`+`__ |<code>150 P = R1/10<code>|Add|
