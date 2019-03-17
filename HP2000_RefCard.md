@@ -10,17 +10,17 @@ _NOTE: The numeric values used in logical evaluation are:_
 
 |Symbol|Sample Statement|Purpose/Meaning/Type|
 |:---|:---|:---|
-|__`=`__ |<code>100 A __=__ B __=__ C __=__ 0</code>|Assignment operator; assigns a value to a variable.|
-|__`*`__ |<code>130 C5 __=__ (A __*__ B) __*__ N2</code>|Multiply|
-|__`/`__ |<code>140 PRINT T5 __/__ 4<code>|Divide|
-|__`+`__ |<code>____<code>||
-|__`-`__ |<code>____<code>||
-|__`=`__ |<code>____<code>||
-|__`<>`__ |<code>____<code>||
-|__`>`__ |<code>____<code>||
-|__`<`__ |<code>____<code>||
-|__`>=`__ |<code>____<code>||
-|__`<=`__ |<code>____<code>||
+|__`=`__ |<code>100 A = B = C = 0</code>|Assignment operator; assigns a value to a variable.|
+|__`*`__ |<code>130 C5 = (A*B)*N2</code>|Multiply|
+|__`/`__ |<code>140 PRINT T5/4<code>|Divide|
+|__`+`__ |<code>150 P = R1/10<code>|Add|
+|__`-`__ |<code>160 X3 = R3 - P<code>|Subtract|
+|__`=`__ |<code>170 IF D = E THEN 600<code>|_expression_ __"equals"__ _expression_|
+|__`<>`__ |<code><code>||
+|__`>`__ |<code><code>||
+|__`<`__ |<code><code>||
+|__`>=`__ |<code><code>||
+|__`<=`__ |<code><code>||
 
 ## STATEMENTS
 
