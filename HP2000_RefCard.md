@@ -2,6 +2,16 @@
 
 Reference for all commands used in STTR1.
 
+## MATRICES
+_NOTES:_
+1. _Absolute maximum matrix size is 4900 elements._
+2. _Matrix variables must be a single letter from A to Z._
+
+|Name|Sample Statement|Purpose|
+|:---|:---|:---|
+|__`DIM`__|<code>10 __DIM__ A (10,20)</code>|Allocates space for a matrix of the specified dimensions.|
+|__`MAT ZER`__|<code>__MAT__  B=__ZER__</code>|Sets all elements of the specified matrix equal to 0.|
+
 ## STRINGS
 _NOTES:_
 1. _A string is 1 to 72 characters enclosed in quotes; it may be assigned to a string variable (an A to Z letter followed by a $)._
