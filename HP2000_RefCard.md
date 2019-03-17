@@ -74,7 +74,7 @@ _NOTE: The numeric values used in logical evaluation are:_
 |__`NEXT`__|<code>530 __NEXT__ J</code>|Marks the end of the FOR loop.|
 |__`PRINT`__ |<code>540 __PRINT__ A,B,C$</code>|Prints the specified values; 5 fields per line when commas are used as separators, 12 when semicolons are used.|
 ||<code>550 __PRINT__</code>|Causes the terminal to advance one line.|
-||<code>580 __PRINT USING__ "3A";A$</code><br>`590 __PRINT USING__ A$;A,B4|Prints the specified data according to the specified format. The format can be a string, a string variable or the statement number of an image statement containing the format string (200). The format is optionally followed by a semicolon and an expression list (A,B4).|
+||<code>580 __PRINT USING__ "3A";A$</code><br><code>590 __PRINT USING__ A$;A,B4</code><code>600 __PRINT USING__ 200;N,A$</code>|Prints the specified data according to the specified format. The format can be a string, a string variable or the statement number of an image statement containing the format string (200). The format is optionally followed by a semicolon and an expression list (A,B4).|
 |__`REM`__ |<code>630 __REM__ ANY TEXT</code>|Inserts non-executable remarks in a program.||
 |__`RETURN`__ |<code>660 __RETURN__</code>|Subroutine exit; transfers control to the statement following the matching GOSUB.|
 
