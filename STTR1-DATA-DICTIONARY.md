@@ -14,7 +14,7 @@
 |__`C2`__||||
 |__`C$`__|__`DIM C$[6]`__|Condition|`DOCKED`<br>`GREEN`<br>`RED`<br>`YELLOW`|
 |__`D`__|__`MAT D`__|Damage info, 8 elements.|`D[1]: WARP ENGINE DAMAGE`<br>`D[2]: SHORT RANGE SENSOR DAMAGE`<br>`D[3]: LONG RANGE SENSOR DAMAGE`<br>`D[4]: PHASER CONTROL DAMAGE`<br>`D[5]: PHOTON TUBES DAMAGE`<br>`D[6]: DAMAGE CONTROL DAMAGE`<br>`D[7]: SHIELD CONTROL DAMAGE`<br>`D[8]: COMPUTER DAMAGE`<br>|
-|__`D0`__||||
+|__`D0`__|||`0 = NOT DOCKED?`<br>`1 = DOCKED?`|
 |__`D$`__|__`DIM D$[72]`__||`"WARP ENGINESS.R. SENSORSL.R. SENSORSPHASER CNTRLPHOTON TUBESDAMAGE CNTRL"`|
 |__`E`__||Units of energy.||
 |__`E0`__||||
