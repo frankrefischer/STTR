@@ -67,9 +67,9 @@ _NOTE: The numeric values used in logical evaluation are:_
 |__`PRINT`__ |<code>540 __PRINT__ A,B,C$</code>|Prints the specified values; 5 fields per line when commas are used as separators, 12 when semicolons are used.|
 |__`INPUT`__ |<code>510 __INPUT__ X$,Y2,B4</code>|Allows data to be entered from terminal while program is running.|
 |<code>__IF&nbsp;...&nbsp;THEN__</code> |<code>490&nbsp;**IF**&nbsp;A#10&nbsp;**THEN**&nbsp;350</code>|Logical test; transfers control to statement number if "true".|
-|__`FOR...NEXT`__ |<code>____</code>||
-|__`END`__ |<code>____</code>||
-|__`GOTO`__ |<code>___</code>||
-|__`GOSUB`__ |<code>___</code>||
+|__`END`__ |<code>390 __END__</code>||
+|__`FOR...NEXT`__ |<code>440 __FOR__ J=1 __TO__ N <...> __NEXT__ J</code>|Executes statements between FOR and NEXT the specified number of times (a loop), incrementing the variable by 1.|
+|__`GOTO`__ |<code>450 __GOTO__ 900</code>|Transfers control (jumps) to specified statement number.|
+|__`GOTO...OF`__ |<code>460 __GOTO__ _n_ __OF__ 100,10,20</code>|Transfers control to the _n_th statement of the statements listed after "OF".|
 |__`IF...THEN`__ |<code>___</code>||
 |__`IMAGE`__ |<code>___</code>||
