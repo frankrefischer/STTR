@@ -2,6 +2,7 @@
 
 |Variable name|Variable type|Meaning|Possible values|
 |:---|:---|:---|:---|
+|__`A`__||Used as buffer for command input|`0 = SET COURSE`<br>`1 = SHORT RANGE SENSOR SCAN`<br>`2 = LONG RANGE SENSOR SCAN`<br>`3 = FIRE PHASERS`<br>`4 = FIRE PHOTON TORPEDOES`<br>`5 = SHIELD CONTROL`<br>`6 = DAMAGE CONTROL REPORT`<br>`7 = CALL ON LIBRARY COMPUTER`<br>|
 |__`A$`__|__`DIM A$(3)`__|Used as buffer for user input|`"YES"`<br>`"NO"` |
 |__`A$`__|__`DIM A$(3)`__|Used as buffer for short range scan objects.|`"___" EMPTY`<br>`"<*>" ENTERPRISE`<br>`"+++" KLINGON`<br>`">!<" STARBASE`<br>`" * " STAR`|
 |__`B3`__||||
@@ -29,6 +30,7 @@
 |__`Q2`__||||
 |__`Q$`__|__`DIM Q$[72]`__|||
 |__`R1`__||||
+|__`R2`__||||
 |__`R$`__|__`DIM R$[72]`__|||
 |__`S`__||Shields value.|&le; 200: dangerously low|
 |__`S1`__||||
@@ -41,5 +43,6 @@
 |__`T9`__||Number of stardates in which all Klingons must be destroyed.||
 |__`X`__||||
 |__`Z`__|__`DIM Z[8,8]`__|||
-|__`Z$`__|__`DIM Z$(72)`__|||
+|__`Z1`__||||
+|__`Z2`__||||
 |__`Z$`__|__`DIM Z$[72]`__|||
