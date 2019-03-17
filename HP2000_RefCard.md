@@ -16,11 +16,11 @@ _NOTE: The numeric values used in logical evaluation are:_
 |__`+`__ |<code>150 P = R1/10<code>|Add|
 |__`-`__ |<code>160 X3 = R3 - P<code>|Subtract|
 |__`=`__ |<code>170 IF D = E THEN 600<code>|_expression_ __"equals"__ _expression_|
-|__`<>`__ |<code><code>||
-|__`>`__ |<code><code>||
-|__`<`__ |<code><code>||
-|__`>=`__ |<code><code>||
-|__`<=`__ |<code><code>||
+|__`<>`__ |<code>180 IF D6<>(2*D) THEN 700<code>|_expression_ __"does not equal"__ _expression_|
+|__`>`__ |<code>190 IF X>10 THEN 620<code>|_expression_ __"is greater than"__ _expression_|
+|__`<`__ |<code>200 IF R8<P7 THEN 640 <code>|_expression_ __"is less than"__ _expression_|
+|__`>=`__ |<code>210 IF R8>=P7 THEN 710<code>|_expression_ __"is greater than or equal to"__ _expression_
+|__`<=`__ |<code>220 IF X2<=10 THEN 650<code>|_expression_ __"is less than or equal to"__ _expression_
 
 ## STATEMENTS
 
