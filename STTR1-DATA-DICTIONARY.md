@@ -21,7 +21,7 @@
 |__`E$`__|__`DIM E$[24]`__||`"SHIELD CNTRLCOMPUTER"`|
 |__`G`__|__`DIM G[8,8]`__|||
 |__`H`__||Hit points on Enterprise or on Klingon.||
-|__`H8`__||||
+|__`H8`__||Mysterious. Checked for H8 = 1 but set to 0. Looks like its a useless variable|'0'|
 |__`I`__||||
 |__`J`__||||
 |__`K`__|__`DIM G[3,3]`__|Klingon data.|<code>K[I,1],K[I,2]&nbsp;=&nbsp;sector&nbsp;coordinates&nbsp;of&nbsp;Klingon&nbsp;I</code><br><code>K[I,3]&nbsp;=&nbsp;hit&nbsp;points&nbsp;left&nbsp;on&nbsp;Klingon&nbsp;I</code><br>`with I from 1 to 3`|
@@ -30,8 +30,8 @@
 |__`K9`__||Number of Klingons left.||
 |__`N`__|__``__|||
 |__`N`__|__`DIM N[3]`__|||
-|__`P`__||Number of available photon torpedoes.||
-|__`P0`__||||
+|__`P`__||Number of available photon torpedoes.|`0-10`|
+|__`P0`__||Never used. Looks like it should be the maximum number of torpedoes.|`10`|
 |__`Q1`__||Current quadrant x-coordinate.||
 |__`Q2`__||Current quadrant y-coordinate.||
 |__`Q$`__|__`DIM Q$[72]`__|||
@@ -43,7 +43,7 @@
 |__`S2`__||Current sector y-coordinate.||
 |__`S3`__||||
 |__`S8`__||||
-|__`S9`__||||
+|__`S9`__||Initial hit points for Klingons.|`200`|
 |__`S$`__|__`DIM S$[48]`__|||
 |__`T`__||||
 |__`T0`__||Current stardate.||
