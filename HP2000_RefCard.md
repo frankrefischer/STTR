@@ -2,6 +2,15 @@
 
 Reference for all commands used in STTR1.
 
+## SIMPLE VARIABLE
+
+A letter from A to Z; or a letter immediately followed by a number (from 0 to 9).  
+Examples: A0, B, M5, C2, Z9, D
+
+Variables are used to represent numeric values.
+
+There are two other types of variables, string variables and array variables.
+
 ## FUNCTIONS
 _Functions return a numeric result; they may be used as expressions or parts of expressions. PRINT is used for examples only; other statement types may be used._
 
