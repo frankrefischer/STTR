@@ -11,8 +11,8 @@ _NOTE: The numeric values used in logical evaluation are:_
 |Symbol|Sample Statement|Purpose/Meaning/Type|
 |:---|:---|:---|
 |__`=`__ |<code>100 A __=__ B __=__ C __=__ 0</code>|Assignment operator; assigns a value to a variable.|
-|__`*`__ |<code>130 C5 __=__ (A __*__ B)*N2</code>||
-|__`/`__ |<code>____<code>||
+|__`*`__ |<code>130 C5 __=__ (A __*__ B) __*__ N2</code>|Multiply|
+|__`/`__ |<code>140 PRINT T5 __/__ 4<code>|Divide|
 |__`+`__ |<code>____<code>||
 |__`-`__ |<code>____<code>||
 |__`=`__ |<code>____<code>||
