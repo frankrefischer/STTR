@@ -23,7 +23,7 @@
 |__`H8`__||||
 |__`I`__||||
 |__`J`__||||
-|__`K`__|__`DIM G[3,3]`__|Klingon data.|`K[I,1],K[I,2] = sector coordinates of Klingon I`<br>`K[I,3] = hit points left`|
+|__`K`__|__`DIM G[3,3]`__|Klingon data.|<code>K[I,1],K[I,2]&nbsp;=&nbsp;sector&nbsp;coordinates&nbsp;of&nbsp;Klingon&nbsp;I</code><br><code>K[I,3]&nbsp;=&nbsp;hit&nbsp;points&nbsp;left</code>|
 |__`K3`__||||
 |__`K7`__||||
 |__`K9`__||Number of Klingons to destroy.||
