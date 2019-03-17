@@ -8,6 +8,13 @@ _NOTES:_
 2. _Each string variable used in a program must be dimensional (with a DIM statement) if it has a length of more than one character. The DIM sets the physical or maximum length of a string._
 3. _Substrings are described by subscripted string variables. For example, if A$ = "ABCDEF", A$(2,2) = B, A$(1,4) = "ABCD" and A$(3) = "CDEF"._
 
+|Full Name/Symbol|Example (Abbreviation)|Purpose|
+|:---|:---|:---|
+|__`DIM`__ |<code>10 __DIM__ A$ (27)</code>|Declares maximum string length in characters.|
+|__`=`__ |<code>20 A$="**TEXT1</code>|Assigns the character string in quotes to a string variable.|
+|__`=`__ |<code>105&nbsp;IF&nbsp;A$=C$&nbsp;THEN&nbsp;600</code>|Allows comparison of strings, and substrings and transfer to a specified statement if the comparison is true. Comparison is made in ASCII codes, character by character, left to right until a difference is found.|
+|__`INPUT`__ |<code>205 __INPUT__ N$</code>|Accepts as many characters as the string can hold (followed by a _return_). The characters need not be in quotation marks.|
+
 ## OPERATORS
 
 _NOTE: The numeric values used in logical evaluation are:_
@@ -37,9 +44,4 @@ _NOTE: The numeric values used in logical evaluation are:_
 |**`PRINT`** |<code>540 **PRINT** A,B,C$</code>|Prints the specified values; 5 fields per line when commas are used as separators, 12 when semicolons are used.|
 |**`INPUT`** |<code>510 **INPUT** X$,Y2,B4</code>|Allows data to be entered from terminal while program is running.|
 |<code>**IF&nbsp;...&nbsp;THEN**</code> |<code>490&nbsp;**IF**&nbsp;A#10&nbsp;**THEN**&nbsp;350</code>|Logical test; transfers control to statement number if "true".|
-|**``** |<code>****</code>||
-|**``** |<code>****</code>||
-|**``** |<code>****</code>||
-|**``** |<code>****</code>||
-|**``** |<code>****</code>||
 |**``** |<code>****</code>||
