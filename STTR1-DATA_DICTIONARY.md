@@ -8,6 +8,7 @@
 |__`B3`__||||
 |__`B9`__||Number of starbases.||
 |__`C`__|__`DIM C[9,2]`__|||
+|__`B1`__||Used as buffer for course input|`0 = cancel SET COURSE`<br>`1-8 =valid course`<br>`others = input course again`|
 |__`C$`__|__`DIM C$[6]`__|||
 |__`D`__|__`MAT D`__|Damage info, 8 elements.||
 |__`D0`__||||
