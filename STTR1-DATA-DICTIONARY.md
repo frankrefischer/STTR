@@ -32,8 +32,8 @@
 |__`N`__|__`DIM N[3]`__|||
 |__`P`__||Number of available photon torpedoes.|`0-10`|
 |__`P0`__||Never used. Looks like it should be the maximum number of torpedoes.|`10`|
-|__`Q1`__||Current quadrant x-coordinate.||
-|__`Q2`__||Current quadrant y-coordinate.||
+|__`Q1`__|`integer`|Current quadrant x-coordinate; initialized to random value.|`1-8`|
+|__`Q2`__|`integer`|Current quadrant y-coordinate; initialized to random value.|`1-8`|
 |__`Q$`__|__`DIM Q$[72]`__|||
 |__`R1`__||||
 |__`R2`__||||
