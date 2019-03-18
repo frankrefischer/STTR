@@ -8,7 +8,7 @@
 |__`A$`__|__`DIM A$(3)`__|Used as buffer for short range scan objects.|`"___" EMPTY`<br>`"<*>" ENTERPRISE`<br>`"+++" KLINGON`<br>`">!<" STARBASE`<br>`" * " STAR`|
 |__`B1`__||Used as buffer for course or torpedo course input|`0 = cancel command`<br>`1-8 =valid course`<br>`others = input course again`|
 |__`B3`__|`integer`|Number of starbases at current sector.|`0-1`|
-|__`B9`__|`integer`|Number of starbases in galaxy.|`0-64`|
+|__`B9`__|`integer`|Number of starbases in galaxy.|`1-64`|
 |__`C`__|__`DIM C[9,2]`__|||
 |__`C1`__||||
 |__`C2`__||||
@@ -27,7 +27,7 @@
 |__`K`__|__`DIM G[3,3]`__|Klingon data.|<code>K[I,1],K[I,2]&nbsp;=&nbsp;sector&nbsp;coordinates&nbsp;of&nbsp;Klingon&nbsp;I</code><br><code>K[I,3]&nbsp;=&nbsp;hit&nbsp;points&nbsp;left&nbsp;on&nbsp;Klingon&nbsp;I</code><br>`with I from 1 to 3`|
 |__`K3`__|`integer`|Number of klingons at current sector.|`0-3`|
 |__`K7`__|`integer`|Initial number of klingons in galaxy; used for score computation at end of game.|`0-192`|
-|__`K9`__|`integer`|Number of klingons left in galaxy.|`0-192`|
+|__`K9`__|`integer`|Number of klingons left in galaxy.|`1-192`|
 |__`N`__|__``__|||
 |__`N`__|__`DIM N[3]`__|||
 |__`P`__||Number of available photon torpedoes.|`0-10`|
