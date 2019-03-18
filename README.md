@@ -8,6 +8,12 @@ Wikipedia article: https://en.wikipedia.org/wiki/Star_Trek_(1971_video_game)
 
 Pete Turnbull's overview: http://www.dunnington.info/public/startrek/
 
+Wikipedia article on startdates: https://en.wikipedia.org/wiki/Stardate  
+Excerpt from Star Trek Guide (April 17, 1967, p. 25):
+>Pick any combination of four numbers plus a percentage point, use it as your story's stardate. For example, 1313.5 is twelve o'clock noon of one day and 1314.5 would be noon of the next day. Each percentage point is roughly equivalent to one-tenth of one day. (...) Stardates are a mathematical formula which varies depending on location in the galaxy, velocity of travel, and other factors, can vary widely from episode to episode.
+
+>Despite the guideline to "pick any combination", the list of episodes shows stardates increasing with time in general, albeit with many instances of a number being lower than in the preceding episode.
+
 ## HP BASIC
 
 Mike Mayfield's original HP BASIC 1972: http://www.dunnington.info/public/startrek/STTR1
@@ -22,5 +28,6 @@ Scans of a Quick Reference To HP 2000C/F Time-Shared BASIC, dated September 1972
 * http://www.decodesystems.com/hp2000/HP2000_Reference_Card_side_2.jpg
 
 Hewlett-Packard HP-2000 Timeshared BASIC Systems Documentation: https://www.mrynet.com/hp2000/documentation.html  
-- Reference manual: ftp://ftp.mrynet.com/pub/os/HP2000/pdf/2000E_UsersMan.pdf
+- Reference manual: ftp://bitsavers.informatik.uni-stuttgart.de/pdf/hp/2000TSB/22687-90001_AccessBasic9-75.pdf
+- User's manual: ftp://ftp.mrynet.com/pub/os/HP2000/pdf/2000E_UsersMan.pdf
 

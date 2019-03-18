@@ -11,6 +11,28 @@ Variables are used to represent numeric values.
 
 There are two other types of variables, string variables and array variables.
 
+## FORMATTED OUTPUT
+
+The following format specifiers are used in STTR1:
+
+|Format specifier|Meaning|
+|:---|:---|
+|__D__|one digit|
+|__3D__|3 digits, left padded with spaces|
+|__4D__|4 digits, left padded with spaces|
+|__5D__|5 digits, left padded with spaces|
+|__6D__|6 digits, left padded with spaces|
+|__8X__|8 spaces|
+|__9X__|9 spaces|
+|__11X__|11 spaces|
+|__15X__|15 spaces|
+|__3A__|3 characters of a string; left padded with whitespace?|
+|__6A__|6 characters of a string; left padded with whitespace?|
+|__3(3D," :")__|3 times: 3 digits followed by " :"|
+|__8(X,3A)__|8 times: 1 space followed by 3 characters of a string|
+|__8(3X,3D)__|8 times: 3 characters of a string followed by 3 digits|
+
+
 ## FUNCTIONS
 _Functions return a numeric result; they may be used as expressions or parts of expressions. PRINT is used for examples only; other statement types may be used._
 
@@ -21,7 +43,7 @@ _Functions return a numeric result; they may be used as expressions or parts of 
 |__`INT(X)`__|<code>330 PRINT __INT(X)__</code>|Gives the largest integer &le; the expression (X).|
 |__`RND(X)`__|<code>350 PRINT __RND(X)__</code>|Generates a random number greater than or equal to 0 and less than 1; the argument (X) may have any value. A negative argument is used to restart a sequence of random numbers.|
 |__`SQR(X)`__|<code>360 PRINT __SQR(X)__</code>|Gives the square root of the expression (X); expression must have a positive value.|
-|__`TIM(X)`__|<code>460 PRINT __TIM(X)__</code>|Gives current minute (X=0) or day (X=1).|
+|__`TIM(X)`__|<code>460 PRINT __TIM(X)__</code>|Gives current minute (X=0) or hour (X=1).|
 
 ## MATRICES
 _NOTES:_
