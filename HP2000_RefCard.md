@@ -43,7 +43,7 @@ _Functions return a numeric result; they may be used as expressions or parts of 
 |__`INT(X)`__|<code>330 PRINT __INT(X)__</code>|Gives the largest integer &le; the expression (X).|
 |__`RND(X)`__|<code>350 PRINT __RND(X)__</code>|Generates a random number greater than or equal to 0 and less than 1; the argument (X) may have any value. A negative argument is used to restart a sequence of random numbers.|
 |__`SQR(X)`__|<code>360 PRINT __SQR(X)__</code>|Gives the square root of the expression (X); expression must have a positive value.|
-|__`TIM(X)`__|<code>460 PRINT __TIM(X)__</code>|Gives current minute (X=0) or day (X=1).|
+|__`TIM(X)`__|<code>460 PRINT __TIM(X)__</code>|Gives current minute (X=0) or hour (X=1).|
 
 ## MATRICES
 _NOTES:_
