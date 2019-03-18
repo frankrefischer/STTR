@@ -7,8 +7,8 @@
 |__`A$`__|__`DIM A$(3)`__|Used as buffer for user input|`"YES"`<br>`"NO"` |
 |__`A$`__|__`DIM A$(3)`__|Used as buffer for short range scan objects.|`"___" EMPTY`<br>`"<*>" ENTERPRISE`<br>`"+++" KLINGON`<br>`">!<" STARBASE`<br>`" * " STAR`|
 |__`B1`__||Used as buffer for course or torpedo course input|`0 = cancel command`<br>`1-8 =valid course`<br>`others = input course again`|
-|__`B3`__||||
-|__`B9`__||Number of starbases left.||
+|__`B3`__|`integer`|Number of starbases at current sector.|`0-1`|
+|__`B9`__|`integer`|Number of starbases in galaxy.|`0-64`|
 |__`C`__|__`DIM C[9,2]`__|||
 |__`C1`__||||
 |__`C2`__||||
@@ -25,9 +25,9 @@
 |__`I`__||||
 |__`J`__||||
 |__`K`__|__`DIM G[3,3]`__|Klingon data.|<code>K[I,1],K[I,2]&nbsp;=&nbsp;sector&nbsp;coordinates&nbsp;of&nbsp;Klingon&nbsp;I</code><br><code>K[I,3]&nbsp;=&nbsp;hit&nbsp;points&nbsp;left&nbsp;on&nbsp;Klingon&nbsp;I</code><br>`with I from 1 to 3`|
-|__`K3`__||||
+|__`K3`__|`integer`|Number of klingons at current sector.|`0-3`|
 |__`K7`__||||
-|__`K9`__||Number of Klingons left.||
+|__`K9`__|`integer`|Number of klingons left in galaxy.|`0-192`|
 |__`N`__|__``__|||
 |__`N`__|__`DIM N[3]`__|||
 |__`P`__||Number of available photon torpedoes.|`0-10`|
@@ -41,13 +41,13 @@
 |__`S`__||Number of energy units on shields.|<code>&lt; 0: enterprise destroyed</code><br><code>&le; 200: dangerously low</code>|
 |__`S1`__|`integer`|Current sector x-coordinate; initialized to random value.|`1-8`|
 |__`S2`__|`integer`|Current sector y-coordinate; initialized to random value.|`1-8`|
-|__`S3`__||||
+|__`S3`__|`integer`|Number of stars at current sector.|`1-8`|
 |__`S8`__||||
 |__`S9`__||Initial hit points for Klingons.|`200`|
 |__`S$`__|__`DIM S$[48]`__|||
 |__`T`__|`integer`|Start stardate initialized to __`T0`__.|from `T0` to `T0+T9`|
 |__`T0`__|`integer`|Current stardate; initialized to a random value from 2000 to 3900.|´2000-3900´|
-|__`T7`__||||
+|__`T7`__|`integer`|Start timestamp in minutes; initialized to `minute+60*hour`.|`0-1380`|
 |__`T9`__|`integer`|Number of stardates, in which player must succeed.|30|
 |__`W1`__||Used as input buffer for warp factor.|`1-8 = valid warp factor`<br>`others =  input course again`|
 |__`X`__||Used as torpedo track x-coordinate.||
