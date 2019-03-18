@@ -182,41 +182,78 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 920  FOR I=1 TO 3
 930  K[I,3]=0
 940  NEXT I
+
 950  Q$=Z$
 960  R$=Z$
 970  S$=Z$[1,48]
+
+979  REM --- place enterprise: set quadrant(S1,S2,"<*>")
 980  A$="<*>"
 990  Z1=S1
 1000  Z2=S2
 1010  GOSUB 5510
+
+1019  REM --- for every klingon in sector
 1020  FOR I=1 TO K3
+
+1029  REM --- find random empty coord in current sector: R1,R2
 1030  GOSUB 5380
+
+1039  REM --- place klingon: set quadrant(R1,R2,"+++")
 1040  A$="+++"
 1050  Z1=R1
 1060  Z2=R2
 1070  GOSUB 5510
+
+1079  --- store klingon coordinates and fresh shield value
 1080  K[I,1]=R1
 1090  K[I,2]=R2
 1100  K[I,3]=S9
+
+1109  --- next klingon
 1110  NEXT I
+
+1019  REM --- for every starbase in sector
 1120  FOR I=1 TO B3
+
+1029  REM --- find random empty coord in current sector: R1,R2
 1130  GOSUB 5380
+
+1039  REM --- place starbase: set quadrant(R1,R2,">!<")
 1140  A$=">!<"
 1150  Z1=R1
 1160  Z2=R2
 1170  GOSUB 5510
+
+1179  --- next starbase
 1180  NEXT I
+
+1189  REM --- for every star in sector
 1190  FOR I=1 TO S3
+
+1199  REM --- find random empty coord in current sector: R1,R2
 1200  GOSUB 5380
+
+1209  REM --- place star: set quadrant(R1,R2," * ")
 1210  A$=" * "
 1220  Z1=R1
 1230  Z2=R2
 1240  GOSUB 5510
+
+1179  --- next star
 1250  NEXT I
+
+1259  REM --- dock or short range scan
 1260  GOSUB 4120
+
+1268  REM --- entry to command loop
+
+1269  REM --- ask for command and dispatch
 1270  PRINT "COMMAND:";
 1280  INPUT A
 1290  GOTO A+1 OF 1410,1260,2330,2530,2800,3460,3560,4630
+
+1299  REM --- if no invalid command then display command list and restart command loop
 1300  PRINT
 1310  PRINT "   0 = SET COURSE"
 1320  PRINT "   1 = SHORT RANGE SENSOR SCAN"
@@ -228,16 +265,34 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 1380  PRINT "   7 = CALL ON LIBRARY COMPUTER"
 1390  PRINT
 1400  GOTO 1270
+
+1408  REM --- 0 = SET COURSE
+
+1409  REM --- ask for course: 1-9
 1410  PRINT "COURSE (1-9):";
 1420  INPUT C1
+
+1429  REM --- if 0 then cancel whole command and restart command loop
 1430  IF C1=0 THEN 1270
+
+1439  REM --- if course input out of range then repeat to ask for course
 1440  IF C1<1 OR C1 >= 9 THEN 1410
+
+1459  REM --- else ask for warp factor: 0-8
 1450  PRINT "WARP FACTOR (0-8):";
 1460  INPUT W1
+
+1469  REM --- if warp factor input out of range then repeat to ask for course
 1470  IF W1<0 OR W1>8 THEN 1410
+
+1477  REM --- if warp engines have any damage and warp factor > .2
+1478  REM --- then display info and ask again for warp factor
+1479  REM --- error? shouldnt it be IF D[1] > 0 ?
 1480  IF D[1] >= 0 OR W1 <= .2 THEN 1510
 1490  PRINT "WARP ENGINES ARE DAMAGED, MAXIMUM SPEED = WARP .2"
 1500  GOTO 1410
+
+
 1510  IF K3 <= 0 THEN 1560
 1520  GOSUB 3790
 1530  IF K3 <= 0 THEN 1560
@@ -499,25 +554,53 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 4090  T1=TIM(0)+TIM(1)*60
 4100  PRINT "YOUR ACTUAL TIME OF MISSION ="INT((((T1-T7)*.4)-T7)*100)" MINUTES"
 4110  GOTO 230
+
+4117  REM --- dock_or_short_range_scan(S1,S2)
+
+4118  REM --- if starbase in neighbourhood then dock
+4119  REM --- in neighbourhood of current sector coords
 4120  FOR I=S1-1 TO S1+1
 4130  FOR J=S2-1 TO S2+1
+
+4139  REM --- if over quadrant edge continue
 4140  IF I<1 OR I>8 OR J<1 OR J>8 THEN 4200
+
+4149  REM --- test if starbase at sector coord: test_sector I,J,">!<"
 4150  A$=">!<"
 4160  Z1=I
 4170  Z2=J
 4180  GOSUB 5680
+
+4188  REM --- if matched: that means if starbase in sector I,J
+4189  REM --- then dock else continue
 4190  IF Z3=1 THEN 4240
+
 4200  NEXT J
 4210  NEXT I
+
+4219  REM --- not docked
 4220  D0=0
 4230  GOTO 4310
+
+4239  REM  --- dock the enterprise
 4240  D0=1
 4250  C$="DOCKED"
+
+4259  REM --- set energy to maximum
 4260  E=3000
+
+4269  REM --- set photons to maximum
 4270  P=10
+
+4279  REM --- set shields to 0
 4280  PRINT "SHIELDS DROPPED FOR DOCKING PURPOSES"
 4290  S=0
 4300  GOTO 4380
+
+4306  REM --- set condition
+4307  REM --- RED if any klingons at current quadrant
+4308  REM --- YELLOW if energy less than 10% of maximum
+4309  REM --- GREEN otherwise
 4310  IF K3>0 THEN 4350
 4320  IF E<E0*.1 THEN 4370
 4330  C$="GREEN"
@@ -525,11 +608,15 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 4350  C$="RED"
 4360  GOTO 4380
 4370  C$="YELLOW"
+
+4379  REM --- if short range sensors are damaged then skip short range scan
 4380  IF D[2] >= 0 THEN 4430
 4390  PRINT
 4400  PRINT "*** SHORT RANGE SENSORS ARE OUT ***"
 4410  PRINT
 4420  GOTO 4530
+
+4429  REM --- else display short range scan
 4430  PRINT  USING 4540
 4440  PRINT  USING 4550;Q$[1,3],Q$[4,6],Q$[7,9],Q$[10,12],Q$[13,15],Q$[16,18],Q$[19,21],Q$[22,24]
 4450  PRINT  USING 4560;Q$[25,27],Q$[28,30],Q$[31,33],Q$[34,36],Q$[37,39],Q$[40,42],Q$[43,45],Q$[46,48],T
@@ -540,7 +627,10 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 4500  PRINT  USING 4610;S$[1,3],S$[4,6],S$[7,9],S$[10,12],S$[13,15],S$[16,18],S$[19,21],S$[22,24],P
 4510  PRINT  USING 4620;S$[25,27],S$[28,30],S$[31,33],S$[34,36],S$[37,39],S$[40,42],S$[43,45],S$[46,48],S
 4520  PRINT  USING 4540
+
 4530  RETURN 
+
+4539  REM --- formats for short range scan
 4540  IMAGE  "---------------------------------"
 4550  IMAGE  8(X,3A)
 4560  IMAGE  8(X,3A),8X,"STARDATE",8X,5D
@@ -550,6 +640,10 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 4600  IMAGE  8(X,3A),8X,"ENERGY",9X,6D
 4610  IMAGE  8(X,3A),8X,"PHOTON TORPEDOES",3D
 4620  IMAGE  8(X,3A),8X,"SHIELDS",8X,6D
+
+
+
+
 4630  IF D[8] >= 0 THEN 4660
 4640  PRINT "COMPUTER DISABLED"
 4650  GOTO 1270
@@ -625,12 +719,19 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 5350  IMAGE  D,8(3X,3D)
 5360  IMAGE  "   ----- ----- ----- ----- ----- ----- ----- -----"
 5370  IMAGE  " WARP ENGINES SHUTDOWN AT SECTOR ",D,",",D," DUE TO BAD NAVIGATION"
+
+5378  REM --- find random empty coord in current sector
+5379  REM --- returns Z1,Z2 and R1,R2
 5380  R1=INT(RND(1)*8+1)
 5390  R2=INT(RND(1)*8+1)
+
+5399  REM --- test_sector(R1,R2,"   ")
 5400  A$="   "
 5410  Z1=R1
 5420  Z2=R2
 5430  GOSUB 5680
+
+5439  REM --- if not matched repeat
 5440  IF Z3=0 THEN 5380
 5450  RETURN
 
@@ -641,7 +742,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 5490  PRINT
 5500  RETURN
 
-
+5509  REM --- set_quadrant(Z1,Z2,A$) 3*64=192
 5510  REM ******  INSERTION IN STRING ARRAY FOR QUADRANT ******
 5520  S8=Z1*24+Z2*3-26
 5530  IF S8>72 THEN 5560
@@ -652,6 +753,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 5580  GOTO 5600
 5590  S$[S8-144,S8-142]=A$
 5600  RETURN
+
 5610  REM ****  PRINTS DEVICE NAME FROM ARRAY *****
 5620  S8=R1*12-11
 5630  IF S8>72 THEN 5660
@@ -659,6 +761,9 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 5650  GOTO 5670
 5660  PRINT E$[S8-72,S8-61];
 5670  RETURN
+
+5678  REM --- test_sector(Z1,Z2,A$)
+5679  REM --- returns Z3: 0 no match, 1 matched
 5680  REM *******  STRING COMPARISON IN QUADRANT ARRAY **********
 5683  Z1=INT(Z1+.5)
 5686  Z2=INT(Z2+.5)
@@ -675,6 +780,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 5790  IF S$[S8-144,S8-142] <> A$ THEN 5810
 5800  Z3=1
 5810  RETURN
+
 
 5819  REM --- show instructions
 5820  PRINT "     INSTRUCTIONS:"
