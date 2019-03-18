@@ -26,7 +26,7 @@
 |__`J`__||||
 |__`K`__|__`DIM G[3,3]`__|Klingon data.|<code>K[I,1],K[I,2]&nbsp;=&nbsp;sector&nbsp;coordinates&nbsp;of&nbsp;Klingon&nbsp;I</code><br><code>K[I,3]&nbsp;=&nbsp;hit&nbsp;points&nbsp;left&nbsp;on&nbsp;Klingon&nbsp;I</code><br>`with I from 1 to 3`|
 |__`K3`__|`integer`|Number of klingons at current sector.|`0-3`|
-|__`K7`__||||
+|__`K7`__|`integer`|Initial number of klingons in galaxy; used for score computation at end of game.|`0-192`|
 |__`K9`__|`integer`|Number of klingons left in galaxy.|`0-192`|
 |__`N`__|__``__|||
 |__`N`__|__`DIM N[3]`__|||
