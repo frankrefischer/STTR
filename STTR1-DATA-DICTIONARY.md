@@ -39,8 +39,8 @@
 |__`R2`__||||
 |__`R$`__|__`DIM R$[72]`__|||
 |__`S`__||Number of energy units on shields.|<code>&lt; 0: enterprise destroyed</code><br><code>&le; 200: dangerously low</code>|
-|__`S1`__||Current sector x-coordinate.||
-|__`S2`__||Current sector y-coordinate.||
+|__`S1`__|`integer`|Current sector x-coordinate; initialized to random value.|`1-8`|
+|__`S2`__|`integer`|Current sector y-coordinate; initialized to random value.|`1-8`|
 |__`S3`__||||
 |__`S8`__||||
 |__`S9`__||Initial hit points for Klingons.|`200`|
