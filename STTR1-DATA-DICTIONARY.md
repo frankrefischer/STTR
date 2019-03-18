@@ -16,8 +16,8 @@
 |__`D`__|__`MAT D`__|Damage info, 8 elements.|`D[1]: WARP ENGINE DAMAGE`<br>`D[2]: SHORT RANGE SENSOR DAMAGE`<br>`D[3]: LONG RANGE SENSOR DAMAGE`<br>`D[4]: PHASER CONTROL DAMAGE`<br>`D[5]: PHOTON TUBES DAMAGE`<br>`D[6]: DAMAGE CONTROL DAMAGE`<br>`D[7]: SHIELD CONTROL DAMAGE`<br>`D[8]: COMPUTER DAMAGE`<br>|
 |__`D0`__|||`0 = NOT DOCKED?`<br>`1 = DOCKED?`|
 |__`D$`__|__`DIM D$[72]`__||`"WARP ENGINESS.R. SENSORSL.R. SENSORSPHASER CNTRLPHOTON TUBESDAMAGE CNTRL"`|
-|__`E`__||Units of energy.|<code>&le;3000</code>|
-|__`E0`__||Maximum energy.|`3000`|
+|__`E`__|`integer`|Current units of energy; initialized to __`E0`__.|`0-3000`|
+|__`E0`__|`integer`|Maximum energy.|`3000`|
 |__`E$`__|__`DIM E$[24]`__||`"SHIELD CNTRLCOMPUTER"`|
 |__`G`__|__`DIM G[8,8]`__|||
 |__`H`__||Hit points on Enterprise or on Klingon.||
@@ -45,10 +45,10 @@
 |__`S8`__||||
 |__`S9`__||Initial hit points for Klingons.|`200`|
 |__`S$`__|__`DIM S$[48]`__|||
-|__`T`__||||
-|__`T0`__||Current stardate.||
+|__`T`__|`integer`|Start stardate initialized to __`T0`__.|from `T0` to `T0+T9`|
+|__`T0`__|`integer`|Current stardate; initialized to a random value from 2000 to 3900.|´2000-3900´|
 |__`T7`__||||
-|__`T9`__||Number of stardates left.||
+|__`T9`__|`integer`|Number of stardates, in which player must succeed.|30|
 |__`W1`__||Used as input buffer for warp factor.|`1-8 = valid warp factor`<br>`others =  input course again`|
 |__`X`__||Used as torpedo track x-coordinate.||
 |__`X1`__||||
