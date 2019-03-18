@@ -38,7 +38,7 @@
 |__`R1`__||||
 |__`R2`__||||
 |__`R$`__|__`DIM R$[72]`__|||
-|__`S`__||Shields value.|&le; 200: dangerously low|
+|__`S`__||Number of energy units on shields.|<code>&lt; 0: enterprise destroyed</code><br><code>&le; 200: dangerously low</code>|
 |__`S1`__||Current sector x-coordinate.||
 |__`S2`__||Current sector y-coordinate.||
 |__`S3`__||||
