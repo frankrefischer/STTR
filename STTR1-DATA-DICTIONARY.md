@@ -28,7 +28,7 @@
 |__`K3`__|`integer`|Number of klingons at current sector.|`0-3`|
 |__`K7`__|`integer`|Initial number of klingons in galaxy; used for score computation at end of game.|`0-192`|
 |__`K9`__|`integer`|Number of klingons left in galaxy.|`1-192`|
-|__`N`__|`integer`|Used as temporary variable for `INT(W1*8)`|0-64|
+|__`N`__|`integer`|Used as temporary variable for `INT(W1*8)`|`0-64`|
 |__`N`__|__`DIM N[3]`__|||
 |__`P`__||Number of available photon torpedoes.|`0-10`|
 |__`P0`__||Never used. Looks like it should be the maximum number of torpedoes.|`10`|
@@ -46,9 +46,9 @@
 |__`S9`__||Initial points for Klingons.|`200`|
 |__`S$`__|__`DIM S$[48]`__|||
 |__`T`__|`integer`|Start stardate initialized to __`T0`__.|from `T0` to `T0+T9`|
-|__`T0`__|`integer`|Current stardate; initialized to a random value from 2000 to 3900.|´2000-3900´|
+|__`T0`__|`integer`|Current stardate; initialized to a random value from 2000 to 3900.|`2000-3900`|
 |__`T7`__|`integer`|Start timestamp in minutes; initialized to `minute+60*hour`.|`0-1380`|
-|__`T9`__|`integer`|Number of stardates, in which player must succeed.|30|
+|__`T9`__|`integer`|Number of stardates, in which player must succeed.|`30`|
 |__`W1`__|`float`|Used as input buffer for warp factor.|`0-8 = valid warp factor`<br>`others =  input course again`|
 |__`X`__||Used as torpedo track x-coordinate.||
 |__`X1`__||||
