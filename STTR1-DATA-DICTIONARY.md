@@ -24,11 +24,11 @@
 |__`H8`__||Mysterious. Checked for H8 = 1 but set to 0. Looks like its a useless variable|´0´|
 |__`I`__||||
 |__`J`__||||
-|__`K`__|__`DIM G[3,3]`__|Klingon data.|<code>K[I,1],K[I,2]&nbsp;=&nbsp;sector&nbsp;coordinates&nbsp;of&nbsp;Klingon&nbsp;I</code><br><code>K[I,3]&nbsp;=&nbsp;hit&nbsp;points&nbsp;left&nbsp;on&nbsp;Klingon&nbsp;I</code><br>`with I from 1 to 3`|
+|__`K`__|__`DIM G[3,3]`__|Klingon data.|<code>K[I,1],K[I,2]&nbsp;=&nbsp;sector&nbsp;coordinates&nbsp;of&nbsp;Klingon&nbsp;I</code><br><code>K[I,3]&nbsp;=&nbsp;points&nbsp;left&nbsp;on&nbsp;Klingon&nbsp;I</code><br>`with I from 1 to 3`|
 |__`K3`__|`integer`|Number of klingons at current sector.|`0-3`|
 |__`K7`__|`integer`|Initial number of klingons in galaxy; used for score computation at end of game.|`0-192`|
 |__`K9`__|`integer`|Number of klingons left in galaxy.|`1-192`|
-|__`N`__|__``__|||
+|__`N`__|`integer`|Used as temporary variable for `INT(W1*8)`|`0-64`|
 |__`N`__|__`DIM N[3]`__|||
 |__`P`__||Number of available photon torpedoes.|`0-10`|
 |__`P0`__||Never used. Looks like it should be the maximum number of torpedoes.|`10`|
@@ -43,13 +43,13 @@
 |__`S2`__|`integer`|Current sector y-coordinate; initialized to random value.|`1-8`|
 |__`S3`__|`integer`|Number of stars at current sector.|`1-8`|
 |__`S8`__||||
-|__`S9`__||Initial hit points for Klingons.|`200`|
+|__`S9`__||Initial points for Klingons.|`200`|
 |__`S$`__|__`DIM S$[48]`__|||
 |__`T`__|`integer`|Start stardate initialized to __`T0`__.|from `T0` to `T0+T9`|
-|__`T0`__|`integer`|Current stardate; initialized to a random value from 2000 to 3900.|´2000-3900´|
+|__`T0`__|`integer`|Current stardate; initialized to a random value from 2000 to 3900.|`2000-3900`|
 |__`T7`__|`integer`|Start timestamp in minutes; initialized to `minute+60*hour`.|`0-1380`|
-|__`T9`__|`integer`|Number of stardates, in which player must succeed.|30|
-|__`W1`__||Used as input buffer for warp factor.|`1-8 = valid warp factor`<br>`others =  input course again`|
+|__`T9`__|`integer`|Number of stardates, in which player must succeed.|`30`|
+|__`W1`__|`float`|Used as input buffer for warp factor.|`0-8 = valid warp factor`<br>`others =  input course again`|
 |__`X`__||Used as torpedo track x-coordinate.||
 |__`X1`__||||
 |__`X2`__||||
