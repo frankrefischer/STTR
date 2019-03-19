@@ -187,7 +187,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 960  R$=Z$
 970  S$=Z$[1,48]
 
-979  REM --- place enterprise: set quadrant(S1,S2,"<*>")
+979  REM --- place enterprise: set_sector(S1,S2,"<*>")
 980  A$="<*>"
 990  Z1=S1
 1000  Z2=S2
@@ -199,7 +199,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 1029  REM --- find random empty coord in current sector: R1,R2
 1030  GOSUB 5380
 
-1039  REM --- place klingon: set quadrant(R1,R2,"+++")
+1039  REM --- place klingon: set_sector(R1,R2,"+++")
 1040  A$="+++"
 1050  Z1=R1
 1060  Z2=R2
@@ -219,7 +219,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 1029  REM --- find random empty coord in current sector: R1,R2
 1130  GOSUB 5380
 
-1039  REM --- place starbase: set quadrant(R1,R2,">!<")
+1039  REM --- place starbase: set_sector(R1,R2,">!<")
 1140  A$=">!<"
 1150  Z1=R1
 1160  Z2=R2
@@ -234,7 +234,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 1199  REM --- find random empty coord in current sector: R1,R2
 1200  GOSUB 5380
 
-1209  REM --- place star: set quadrant(R1,R2," * ")
+1209  REM --- place star: set_sector(R1,R2," * ")
 1210  A$=" * "
 1220  Z1=R1
 1230  Z2=R2
@@ -292,47 +292,90 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 1490  PRINT "WARP ENGINES ARE DAMAGED, MAXIMUM SPEED = WARP .2"
 1500  GOTO 1410
 
-
+1509  REM --- if no klingons in sector: suggest energy transfer to shield if possible and ask for next command
 1510  IF K3 <= 0 THEN 1560
+
+1519  REM --- if any klingons let them attack
 1520  GOSUB 3790
+
+1529  REM --- if no klingons in sector: suggest energy transfer to shield if possible and ask for next command
 1530  IF K3 <= 0 THEN 1560
+
+1539  REM --- else (if any klingons in sector) and shield below zero: enterprise is destroyed
 1540  IF S<0 THEN 4000
+
+1549  REM --- else (if any klingons in sector and shield not below zero): damage control
 1550  GOTO 1610
+
+1559  REM --- suggest to transfer energy to shields, if energy left and shield is below 1
 1560  IF E>0 THEN 1610
 1570  IF S<1 THEN 3920
 1580  PRINT "YOU HAVE"E" UNITS OF ENERGY"
 1590  PRINT "SUGGEST YOU GET SOME FROM YOUR SHIELDS WHICH HAVE"S" UNITS LEFT"
+
+1599  REM --- ask for next command
 1600  GOTO 1270
+
+1609  REM --- damage control
+
+1609  REM --- for all eight damage sections: if damage value in section is below zero the regain 1 point
 1610  FOR I=1 TO 8
 1620  IF D[I] >= 0 THEN 1640
 1630  D[I]=D[I]+1
 1640  NEXT I
+
+1649  REM --- 20% chance: that section gets damaged or repaired
 1650  IF RND(1)>.2 THEN 1810
+
+1659  REM --- random section that gets damaged or repaired: 1-8
 1660  R1=INT(RND(1)*8+1)
+
+1669  REM --- 50% chance that section gets damages, else it gets repaired
 1670  IF RND(1) >= .5 THEN 1750
+
+1679  REM --- apply damage to random section: 1-5 points
 1680  D[R1]=D[R1]-(RND(1)*5+1)
+
+1689  REM --- display damage control report with info that something got damaged
 1690  PRINT
 1700  PRINT "DAMAGE CONTROL REPORT:";
+
+1709  REM --- print_device_name(R1)
 1710  GOSUB 5610
 1720  PRINT " DAMAGED"
 1730  PRINT
 1740  GOTO 1810
+
+1679  REM --- apply repair to random section: 1-5 points
 1750  D[R1]=D[R1]+(RND(1)*5+1)
+
+1759  REM --- display damage control report with info that something got repaired
 1760  PRINT
 1770  PRINT "DAMAGE CONTROL REPORT:";
+
+1779  REM --- print_device_name(R1)
 1780  GOSUB 5610
 1790  PRINT " STATE OF REPAIR IMPROVED"
 1800  PRINT
+
+1808  REM --- 
+1809  REM --- 0<=W1<=8, 0<=W1*8<=64, 0<=N<=64
 1810  N=INT(W1*8)
+
+1818  REM --- enterprise leaves sector
+1819  REM --- set_sector(S1,S2,"   ")
 1820  A$="   "
 1830  Z1=S1
 1840  Z2=S2
 1850  GOSUB 5510
+
+
 1870  X=S1
 1880  Y=S2
 1885  C2=INT(C1)
 1890  X1=C[C2,1]+(C[C2+1,1]-C[C2,1])*(C1-C2)
 1900  X2=C[C2,2]+(C[C2+1,2]-C[C2,2])*(C1-C2)
+
 1910  FOR I=1 TO N
 1920  S1=S1+X1
 1930  S2=S2+X2
@@ -347,12 +390,14 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 2050  S2=S2-X2
 2060  GOTO 2080
 2070  NEXT I
+
 2080  A$="<*>"
 2083  S1=INT(S1+.5)
 2086  S2=INT(S2+.5)
 2090  Z1=S1
 2100  Z2=S2
 2110  GOSUB 5510
+
 2120  E=E-N+5
 2130  IF W1<1 THEN 2150
 2140  T=T+1
@@ -521,19 +566,42 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 3760  GOSUB 5510
 3770  G[Q1,Q2]=K3*100+B3*10+S3
 3780  RETURN
+
+3788  REM --- klingons attack
+3789  REM --- if docked then there are no attacks otherwise return
 3790  IF C$ <> "DOCKED" THEN 3820
 3800  PRINT "STAR BASE SHIELDS PROTECT THE ENTERPRISE"
 3810  RETURN
+
+3819  REM --- if no klingons return
 3820  IF K3 <= 0 THEN 3910
+
+3829  REM --- then let each one attack
 3830  FOR I=1 TO 3
+
+3839  REM --- if there is no klingon[I] then next
 3840  IF K[I,3] <= 0 THEN 3900
+
+3848  REM --- compute hitpoints: (klingon points: 1-200)/(distance to klingon: 1 <= sqrt(49+49=98) <10)*random(0-2)
+3849  REM ---             range: 0 < x < 400
 3850  H=(K[I,3]/FND(0))*(2*RND(1))
+
+3859  REM --- apply hit points to shield(shield is 0-200)
 3860  S=S-H
+
+3869  REM --- display result of attack: hit points, coordinates of attacking klingon, shield points left
 3870  PRINT  USING 3880;H,K[I,1],K[I,2],S
 3880  IMAGE  4D," UNIT HIT ON ENTERPRISE AT SECTOR ",D,",",D,"   (",4D," LEFT)"
+
+3899  REM --- if shield below zero: enterprise has been destroyed
 3890  IF S<0 THEN 4000
+
+3899  REM --- next klingon
 3900  NEXT I
+
+3909  REM --- end of klingon attacks
 3910  RETURN
+
 3920  PRINT "THE ENTERPRISE IS DEAD IN SPACE.  IF YOU SURVIVE ALL IMPENDING"
 3930  PRINT "ATTACK YOU WILL BE DEMOTED TO THE RANK OF PRIVATE"
 3940  IF K3 <= 0 THEN 4020
@@ -542,10 +610,16 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 3970  PRINT
 3980  PRINT "IT IS STARDATE"T
 3990  GOTO 4020
+
+3999  REM --- enterprise has been destroyed: display info and restart game
 4000  PRINT
 4010  PRINT "THE ENTERPRISE HAS BEEN DESTROYED.  THE FEDERATION WILL BE CONQUERED"
+
+4019  REM --- display how many klingons are left, then restart game
 4020  PRINT "THERE ARE STILL"K9" KLINGON BATTLE CRUISERS"
 4030  GOTO 230
+
+
 4040  PRINT
 4050  PRINT "THE LAST KLINGON BATTLE CRUISER IN THE GALAXY HAS BEEN DESTROYED"
 4060  PRINT "THE FEDERATION HAS BEEN SAVED !!!"
@@ -742,7 +816,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 5490  PRINT
 5500  RETURN
 
-5509  REM --- set_quadrant(Z1,Z2,A$) 3*64=192
+5509  REM --- set_sector(Z1,Z2,A$)
 5510  REM ******  INSERTION IN STRING ARRAY FOR QUADRANT ******
 5520  S8=Z1*24+Z2*3-26
 5530  IF S8>72 THEN 5560
@@ -754,6 +828,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 5590  S$[S8-144,S8-142]=A$
 5600  RETURN
 
+5609  REM --- print_device_name(R1:random device index)
 5610  REM ****  PRINTS DEVICE NAME FROM ARRAY *****
 5620  S8=R1*12-11
 5630  IF S8>72 THEN 5660
