@@ -49,7 +49,7 @@
 |__`T0`__|`integer`|Current stardate; initialized to a random value from 2000 to 3900.|´2000-3900´|
 |__`T7`__|`integer`|Start timestamp in minutes; initialized to `minute+60*hour`.|`0-1380`|
 |__`T9`__|`integer`|Number of stardates, in which player must succeed.|30|
-|__`W1`__||Used as input buffer for warp factor.|`1-8 = valid warp factor`<br>`others =  input course again`|
+|__`W1`__|`float`|Used as input buffer for warp factor.|`0-8 = valid warp factor`<br>`others =  input course again`|
 |__`X`__||Used as torpedo track x-coordinate.||
 |__`X1`__||||
 |__`X2`__||||
