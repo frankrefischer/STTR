@@ -76,10 +76,10 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 409  REM --- start timestamp in minutes: minute + 60*hour
 410  T7=TIM(0)+60*TIM(1)
 
-416  REM --- ???
-417  REM ---   1  2  3  4  5  6  7  8  9
-418  REM --- 1 0 -1 -1 -1  0  1  1  1  0
-419  REM --- 2 1  1  0 -1 -1 -1  0  1  1
+416  REM --- course deltas
+417  REM --- 4:-1,-1 3:-1, 0 2:-1, 1
+417  REM --- 5: 0,-1         1: 0, 1
+418  REM --- 6: 1,-1 7: 1, 0 8: 1, 1
 420  C[2,1]=C[3,1]=C[4,1]=C[4,2]=C[5,2]=C[6,2]=-1
 430  C[1,1]=C[3,2]=C[5,1]=C[7,2]=C[9,1]=0
 440  C[1,2]=C[2,2]=C[6,1]=C[7,1]=C[8,1]=C[8,2]=C[9,2]=1
@@ -152,7 +152,8 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 
 780  PRINT "YOU MUST DESTROY"K9;" KLINGONS IN"T9;" STARDATES WITH"B9;" STARBASES"
 
-809  REM --- jumped at 810 from 2320
+808  REM --- enter new quadrant
+809  REM --- jumped at 810 from 2320: after navigation to new quadrant
 810  K3=B3=S3=0
 
 819  REM --- 
@@ -358,7 +359,8 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 1790  PRINT " STATE OF REPAIR IMPROVED"
 1800  PRINT
 
-1808  REM --- 
+1807  REM --- navigate enterprise inside quadrant
+1808  REM --- number of sector steps for warp factor W1
 1809  REM --- 0<=W1<=8, 0<=W1*8<=64, 0<=N<=64
 1810  N=INT(W1*8)
 
@@ -369,28 +371,39 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 1840  Z2=S2
 1850  GOSUB 5510
 
-
+1869  REM --- compute sector step vector
 1870  X=S1
 1880  Y=S2
 1885  C2=INT(C1)
 1890  X1=C[C2,1]+(C[C2+1,1]-C[C2,1])*(C1-C2)
 1900  X2=C[C2,2]+(C[C2+1,2]-C[C2,2])*(C1-C2)
 
+1909  REM --- for each step
 1910  FOR I=1 TO N
+
+1919  REM --- add step vector to current sector coordinates
 1920  S1=S1+X1
 1930  S2=S2+X2
+
+1939  REM --- if new sector is out of current sector then navigate enterprise outside quadrant
 1940  IF S1<.5 OR S1 >= 8.5 OR S2<.5 OR S2 >= 8.5 THEN 2170
+
+1949  REM --- if new sector is not empty stop navigation else next step
 1950  A$="   "
 1960  Z1=S1
 1970  Z2=S2
 1980  GOSUB 5680
 1990  IF Z3 <> 0 THEN 2070
 2030  PRINT  USING 5370;S1,S2
+2039  REM --- undo last step and break loop
 2040  S1=S1-X1
 2050  S2=S2-X2
 2060  GOTO 2080
+
 2070  NEXT I
 
+2078  REM --- navigation did not leave current quadrant
+2079  REM --- round sector coordinates to nearest integer and set_sector(S1,S2,"<*>")
 2080  A$="<*>"
 2083  S1=INT(S1+.5)
 2086  S2=INT(S2+.5)
@@ -398,15 +411,27 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 2100  Z2=S2
 2110  GOSUB 5510
 
+2119  REM --- for each step reduce one energy unit and gain 5 units
 2120  E=E-N+5
+
+2129  REM === if warp factor >=1 increase time by 1 otherwise dont
 2130  IF W1<1 THEN 2150
 2140  T=T+1
+
+2149  REM --- if time is out display time and left klingons and restart game
 2150  IF T>T0+T9 THEN 3970
+2159  REM --- ask for next command
 2160  GOTO 1260
+
+2169  REM --- navigate enterprise outside sector
+
+2169  REM --- compute target quadrant
 2170  X=Q1*8+X+X1*N
 2180  Y=Q2*8+Y+X2*N
 2190  Q1=INT(X/8)
 2200  Q2=INT(Y/8)
+
+2209  REM --- compute target sector in target quadrant
 2210  S1=INT(X-Q1*8+.5)
 2220  S2=INT(Y-Q2*8+.5)
 2230  IF S1 <> 0 THEN 2260
@@ -415,14 +440,25 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 2260  IF S2 <> 0 THEN 2290
 2270  Q2=Q2-1
 2280  S2=8
+
+2289  REM --- increase time by 1
 2290  T=T+1
+
+2299  REM --- for each step reduce one energy unit and gain 5 units
 2300  E=E-N+5
+
+2149  REM --- if time is out display time and left klingons and restart game
 2310  IF T>T0+T9 THEN 3970
+2319  REM --- enter new quadrant
 2320  GOTO 810
+
+2329  REM --- long range sensor scan
 2330  IF D[3] >= 0 THEN 2370
 2340  PRINT "LONG RANGE SENSORS ARE INOPERABLE"
 2350  IMAGE  "LONG RANGE SENSOR SCAN FOR QUADRANT",D,",",D
 2360  GOTO 1270
+
+
 2370  PRINT  USING 2350;Q1,Q2
 2380  PRINT  USING 2520
 2390  FOR I=Q1-1 TO Q1+1
@@ -607,6 +643,8 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 3940  IF K3 <= 0 THEN 4020
 3950  GOSUB 3790
 3960  GOTO 3940
+
+3969  REM --- display stardate and how many klingons are left, then restart game
 3970  PRINT
 3980  PRINT "IT IS STARDATE"T
 3990  GOTO 4020
@@ -792,6 +830,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 5340  IMAGE  "---------------------------------------------------"
 5350  IMAGE  D,8(3X,3D)
 5360  IMAGE  "   ----- ----- ----- ----- ----- ----- ----- -----"
+
 5370  IMAGE  " WARP ENGINES SHUTDOWN AT SECTOR ",D,",",D," DUE TO BAD NAVIGATION"
 
 5378  REM --- find random empty coord in current sector
