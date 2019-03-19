@@ -12,6 +12,8 @@ Michael Sternberg's post with a list of "Noteworthy Variables Found in Original 
 
 Michael Sternberg's playthrough video: https://www.youtube.com/watch?v=DCul7V4Uios
 
+Michael Birken's article on his C# port: https://www.codeproject.com/Articles/28228/Star-Trek-Text-Game
+
 Wikipedia article on startdates: https://en.wikipedia.org/wiki/Stardate  
 Excerpt from Star Trek Guide (April 17, 1967, p. 25):
 >Pick any combination of four numbers plus a percentage point, use it as your story's stardate. For example, 1313.5 is twelve o'clock noon of one day and 1314.5 would be noon of the next day. Each percentage point is roughly equivalent to one-tenth of one day. (...) Stardates are a mathematical formula which varies depending on location in the galaxy, velocity of travel, and other factors, can vary widely from episode to episode.
