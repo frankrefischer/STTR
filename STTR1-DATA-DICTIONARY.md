@@ -29,7 +29,7 @@
 |__`K7`__|`integer`|Initial number of klingons in galaxy; used for score computation at end of game.|`0-192`|
 |__`K9`__|`integer`|Number of klingons left in galaxy.|`1-192`|
 |__`N`__|`integer`|Used as temporary variable for `INT(W1*8)`|`0-64`|
-|__`N`__|__`DIM N[3]`__|||
+|__`N`__|__`DIM N[3]`__|Used as temporary copy of quadrant neighbourhood.||
 |__`P`__||Number of available photon torpedoes.|`0-10`|
 |__`P0`__||Never used. Looks like it should be the maximum number of torpedoes.|`10`|
 |__`Q1`__|`integer`|Current quadrant x-coordinate; initialized to random value.|`1-8`|
