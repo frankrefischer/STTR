@@ -140,6 +140,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 729  REM --- store number of klingons, number of starbases, number of stars in galaxy map
 730  G[I,J]=K3*100+B3*10+S3
 
+739  REM --- clear cumulative galactic record
 740  Z[I,J]=0
 750  NEXT J
 760  NEXT I
@@ -244,6 +245,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 1179  --- next star
 1250  NEXT I
 
+1258  REM --- COMMAND: 1 = SHORT RANGE SENSOR SCAN
 1259  REM --- dock or short range scan
 1260  GOSUB 4120
 
@@ -267,7 +269,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 1390  PRINT
 1400  GOTO 1270
 
-1408  REM --- 0 = SET COURSE
+1408  REM --- COMMAND: 0 = SET COURSE
 
 1409  REM --- ask for course: 1-9
 1410  PRINT "COURSE (1-9):";
@@ -375,6 +377,8 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 1870  X=S1
 1880  Y=S2
 1885  C2=INT(C1)
+
+1889 REM vector X = (vector C[INT(COURSE)+1] - vector C[INT(COURSE)])*(COURSE - INT(COURSE))
 1890  X1=C[C2,1]+(C[C2+1,1]-C[C2,1])*(C1-C2)
 1900  X2=C[C2,2]+(C[C2+1,2]-C[C2,2])*(C1-C2)
 
@@ -452,56 +456,124 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 2319  REM --- enter new quadrant
 2320  GOTO 810
 
+2328  REM --- COMMAND: 2 = LONG RANGE SENSOR SCAN
 2329  REM --- long range sensor scan
+
+2329  REM --- if long range sensors damaged, print info and ask for next command
 2330  IF D[3] >= 0 THEN 2370
 2340  PRINT "LONG RANGE SENSORS ARE INOPERABLE"
+
 2350  IMAGE  "LONG RANGE SENSOR SCAN FOR QUADRANT",D,",",D
+
+2359  REM --- ask for next command
 2360  GOTO 1270
 
-
+2369  REM --- otherwise 
+2369  REM --- long range sector scan for quadrant Q1,Q2
 2370  PRINT  USING 2350;Q1,Q2
+2379  REM --- print line of dashes
 2380  PRINT  USING 2520
+
+2389  REM --- for all 9 neighbourhood quadrants, including the current one
 2390  FOR I=Q1-1 TO Q1+1
+
+2389  REM --- matrix N filled with zeroes, dim is maybe 10, but unsure.
 2400  MAT N=ZER
 2410  FOR J=Q2-1 TO Q2+1
+
+2429  REM --- if this neighbourhood quadrant lies outside galaxy map then continue with next neighbourhood quadrant
 2420  IF I<1 OR I>8 OR J<1 OR J>8 THEN 2460
+
+2429  REM --- fill neighbourhood part
 2430  N[J-Q2+2]=G[I,J]
+
+2439  REM --- if computer is not damaged then copy neighbourhood quadrant into cumulative galactic record
 2440  IF D[7]<0 THEN 2460
 2450  Z[I,J]=G[I,J]
+
 2460  NEXT J
+
+2469  REM --- display neighbourhood part
 2470  PRINT  USING 2510;N[1],N[2],N[3]
 2480  PRINT  USING 2520
+
 2490  NEXT I
+
+2499  REM --- ask for next command
 2500  GOTO 1270
+
 2510  IMAGE  ": ",3(3D," :")
+
 2520  IMAGE  "-----------------"
+
+
+2528  REM --- COMMAND: 3 = FIRE PHASERS
+
+2529  REM --- if no klingons in quadrant then report this and ask for next command
 2530  IF K3 <= 0 THEN 3670
+
+2539  REM --- otherwise if phaser is damaged then report this and ask for next command
 2540  IF D[4] >= 0 THEN 2570
 2550  PRINT "PHASER CONTROL IS DISABLED"
 2560  GOTO 1270
+
+2569  REM --- otherwise if computer is damaged then report that accuracy may be bad
 2570  IF D[7] >= 0 THEN 2590
 2580  PRINT " COMPUTER FAILURE HAMPERS ACCURACY"
+
+2569  REM --- otherwise (that means there are klingons and phasers work) then ask for units to fire 
 2590  PRINT "PHASERS LOCKED ON TARGET.  ENERGY AVAILABLE="E
 2600  PRINT "NUMBER OF UNITS TO FIRE:";
 2610  INPUT X
+
+2619  REM --- if units to fire 0 or negative then ask for next command
 2620  IF X <= 0 THEN 1270
+
+2619  REM --- if there is not enough energy for units to fire then ask again for units
 2630  IF E-X<0 THEN 2570
+
+2639  REM --- reduce energy by units to fire
 2640  E=E-X
+
+2649  REM --- if any klingons let them attack
 2650  GOSUB 3790
+
+2659  REM --- if computer is damaged then reduce phaser units by random factor
 2660  IF D[7] >= 0 THEN 2680
 2670  X=X*RND(1)
+
+2679  REM --- for each of the 3 klingon data
 2680  FOR I=1 TO 3
+
+2659  REM --- if that data means a klingon is here (if its points > 0)
 2690  IF K[I,3] <= 0 THEN 2770
+
+2699  REM --- then hitpoints = (phaser units/count of klingons/distance to that klingon)*(random number r: 0<=r<2)
 2700  H=(X/K3/FND(0))*(2*RND(1))
+
+2709  REM --- reduce klingon points by hit points
 2710  K[I,3]=K[I,3]-H
+
+2719  REM --- display effect of hit on klingon in sector
 2720  PRINT  USING 2730;H,K[I,1],K[I,2],K[I,3]
 2730  IMAGE  4D," UNIT HIT ON KLINGON AT SECTOR ",D,",",D,"   (",3D," LEFT)"
+
+2739  REM --- if klingon is destroyed then report that and update klingon counters and galaxy map entry 
 2740  IF K[I,3]>0 THEN 2770
 2750  GOSUB 3690
 2760  IF K9 <= 0 THEN 4040
+
+2769  REM --- next klingon data
 2770  NEXT I
+
+2779  REM --- if energy is below zero then enterprise is destroyed
 2780  IF E<0 THEN 4000
+
+2789  REM --- ask for next command
 2790  GOTO 1270
+
+
+2799  REM --- COMMAND: 4 = FIRE PHOTON TORPEDOES
 2800  IF D[5] >= 0 THEN 2830
 2810  PRINT "PHOTON TUBES ARE NOT OPERATIONAL"
 2820  GOTO 1270
@@ -590,18 +662,29 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 3640  NEXT R1
 3650  PRINT
 3660  GOTO 1270
+
 3670  PRINT "SHORT RANGE SENSORS REPORT NO KLINGONS IN THIS QUADRANT"
 3680  GOTO 1270
+
+3689  REM --- report and handle destruction of klingon
 3690  PRINT  USING 3700;K[I,1],K[I,2]
 3700  IMAGE  "KLINGON AT SECTOR ",D,",",D," DESTROYED ****"
+
+3709  REM --- reduce klingon count in sector and in galaxy
 3710  K3=K3-1
 3720  K9=K9-1
+
+3729  REM --- remove klingon from quadrant
 3730  A$="   "
 3740  Z1=K[I,1]
 3750  Z2=K[I,2]
 3760  GOSUB 5510
+
+3769  REM --- update entry in galaxy
 3770  G[Q1,Q2]=K3*100+B3*10+S3
+
 3780  RETURN
+
 
 3788  REM --- klingons attack
 3789  REM --- if docked then there are no attacks otherwise return
