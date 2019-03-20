@@ -54,7 +54,7 @@
 |__`X1`__||||
 |__`X2`__||||
 |__`Y`__||Used as torpedo track y-coordinate.||
-|__`Z`__|__`DIM Z[8,8]`__|||
+|__`Z`__|__`DIM Z[8,8]`__|Cumulative galactic record.||
 |__`Z1`__||||
 |__`Z2`__||||
 |__`Z3`__||||
