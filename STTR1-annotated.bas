@@ -573,84 +573,149 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 2790  GOTO 1270
 
 
-2799  REM --- COMMAND: 4 = FIRE PHOTON TORPEDOES
+2798  REM --- COMMAND: 4 = FIRE PHOTON TORPEDOES
+
+2799  REM --- if photon tubes are damaged then show info and ask for next command
 2800  IF D[5] >= 0 THEN 2830
 2810  PRINT "PHOTON TUBES ARE NOT OPERATIONAL"
 2820  GOTO 1270
+
+2829  REM --- if no more photon torpedoes available then show info and ask for next command
 2830  IF P>0 THEN 2860
 2840  PRINT "ALL PHOTON TORPEDOES EXPENDED"
 2850  GOTO 1270
+
+2859  REM --- ask for torpedo course
 2860  PRINT "TORPEDO COURSE (1-9):";
 2870  INPUT C1
+
+2879  REM --- if course is 0 then ask for next command
 2880  IF C1=0 THEN 1270
+
+2889  REM --- if invalid course then ask again for course
 2890  IF C1<1 OR C1 >= 9 THEN 2860
+
+2894  REM --- compute direction vector
 2895  C2=INT(C1)
 2900  X1=C[C2,1]+(C[C2+1,1]-C[C2,1])*(C1-C2)
 2910  X2=C[C2,2]+(C[C2+1,2]-C[C2,2])*(C1-C2)
+
+2919  REM --- torpedo starts at current sector
 2920  X=S1
 2930  Y=S2
+
+2939  REM --- reduce number of available torpedoes by one
 2940  P=P-1
+
 2950  PRINT "TORPEDO TRACK:"
+
+2959  REM --- start of torpedo track
 2960  X=X+X1
 2970  Y=Y+X2
+
+2979  REM --- if torpedo leaves quadrant then torpedo missed
 2980  IF X<.5 OR X >= 8.5 OR Y<.5 OR Y >= 8.5 THEN 3420
+
+2989  REM --- display current torpedo coords
 2990  PRINT  USING 3000;X,Y
 3000  IMAGE  15X,D,",",D
+
+3009  REM --- test if at current torpedo coords is empty
 3010  A$="   "
 3020  Z1=X
 3030  Z2=Y
 3040  GOSUB 5680
+3039  REM --- if empty then next step
 3050  IF Z3=0 THEN 3070
 3060  GOTO 2960
+3069  REM --- if not empty then test if klingon
 3070  A$="+++"
 3080  Z1=X
 3090  Z2=Y
 3100  GOSUB 5680
+3109  REM --- if so then remove klingon otherwise test for stars
 3110  IF Z3=0 THEN 3220
 3120  PRINT "*** KLINGON DESTROYED ***"
 3130  K3=K3-1
 3140  K9=K9-1
+
+3149  REM --- test if last klingon destroyed
 3150  IF K9 <= 0 THEN 4040
+
+3159  REM --- otherwise find data of destroyed klingon
 3160  FOR I=1 TO 3
 3170  IF INT(X+.5) <> K[I,1] THEN 3190
 3180  IF INT(Y+.5)=K[I,2] THEN 3200
 3190  NEXT I
+3199  REM --- set its points to zero and 
 3200  K[I,3]=0
 3210  GOTO 3360
+
+3219  REM --- test if star
 3220  A$=" * "
 3230  Z1=X
 3240  Z2=Y
 3250  GOSUB 5680
+
+3259  REM --- if so then print info and torpedo missed otherwise test if starbase
 3260  IF Z3=0 THEN 3290
 3270  PRINT "YOU CAN'T DESTROY STARS SILLY"
 3280  GOTO 3420
+
+3289  REM --- test if starbase
 3290  A$=">!<"
 3300  Z1=X
 3310  Z2=Y
 3320  GOSUB 5680
+
+3329  REM --- if so then eliminate starbase (oops)
 3330  IF Z3=0 THEN 2960
 3340  PRINT "*** STAR BASE DESTROYED ***  .......CONGRATULATIONS"
 3350  B3=B3-1
+
+3359  REM --- eliminate object
 3360  A$="   "
 3370  Z1=INT(X+.5)
 3380  Z2=INT(Y+.5)
 3390  GOSUB 5510
+
+3399  REM --- update galaxy map
 3400  G[Q1,Q2]=K3*100+B3*10+S3
+
 3410  GOTO 3430
+
 3420  PRINT "TORPEDO MISSED"
+
+3429  REM --- klingons attack
 3430  GOSUB 3790
+
+3439  REM --- if energy below zero then enterprise is destroyed
 3440  IF E<0 THEN 4000
+3449  REM ---  otherwise ask for next command
 3450  GOTO 1270
+
+3458  REM --- COMMAND: 5 = SHIELD CONTROL
+3459  REM --- if shield control is damaged then print info and ask for next command
 3460  IF D[7] >= 0 THEN 3490
 3470  PRINT "SHIELD CONTROL IS NON-OPERATIONAL"
 3480  GOTO 1270
+
+3489  REM --- otherwise ask for number of energy units on shields
 3490  PRINT "ENERGY AVAILABLE ="E+S"   NUMBER OF UNITS TO SHIELDS:";
 3500  INPUT X
+
+3509  REM --- if zero or below ask for next command
 3510  IF X <= 0 THEN 1270
+
+3519  REM --- otherwise if requested number of energy units on shields less than available units then ask again
 3520  IF E+S-X<0 THEN 3490
+
+3529  REM --- otherwise reduce energy and set shield units and ask for next command
 3530  E=E+S-X
 3540  S=X
 3550  GOTO 1270
+
+3558  REM --- COMMAND: 6 = DAMAGE CONTROL REPORT
 3560  IF D[6] >= 0 THEN 3590
 3570  PRINT "DAMAGE CONTROL REPORT IS NOT AVAILABLE"
 3580  GOTO 1270
@@ -740,7 +805,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 4020  PRINT "THERE ARE STILL"K9" KLINGON BATTLE CRUISERS"
 4030  GOTO 230
 
-
+4039  REM --- last klingon destroyed
 4040  PRINT
 4050  PRINT "THE LAST KLINGON BATTLE CRUISER IN THE GALAXY HAS BEEN DESTROYED"
 4060  PRINT "THE FEDERATION HAS BEEN SAVED !!!"
@@ -839,7 +904,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 
 
 
-4630  IF D[8] >= 0 THEN 4660
+4630  IF D[8]   >= 0 THEN 4660
 4640  PRINT "COMPUTER DISABLED"
 4650  GOTO 1270
 4660  PRINT "COMPUTER ACTIVE AND AWAITING COMMAND";
@@ -873,6 +938,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 4940  W1=K[I,1]
 4950  X=K[I,2]
 4960  GOTO 5010
+
 4970  PRINT  USING 4980;Q1,Q2,S1,S2
 4980  IMAGE  "YOU ARE AT QUADRANT ( ",D,",",D," )  SECTOR ( ",D,",",D," )"
 4990  PRINT "SHIP'S & TARGET'S COORDINATES ARE";
