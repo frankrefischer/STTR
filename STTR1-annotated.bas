@@ -256,7 +256,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 1280  INPUT A
 1290  GOTO A+1 OF 1410,1260,2330,2530,2800,3460,3560,4630
 
-1299  REM --- if no invalid command then display command list and restart command loop
+1299  REM --- if invalid command then display command list and restart command loop
 1300  PRINT
 1310  PRINT "   0 = SET COURSE"
 1320  PRINT "   1 = SHORT RANGE SENSOR SCAN"
