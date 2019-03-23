@@ -397,7 +397,9 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 1960  Z1=S1
 1970  Z2=S2
 1980  GOSUB 5680
+1989  REM --- if matched then next step
 1990  IF Z3 <> 0 THEN 2070
+2029  REM --- if not matched then shutdown warp engines due to bad navigation
 2030  PRINT  USING 5370;S1,S2
 2039  REM --- undo last step and break loop
 2040  S1=S1-X1
@@ -502,10 +504,9 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 2499  REM --- ask for next command
 2500  GOTO 1270
 
+2509  REM --- formats for neighbourhood part
 2510  IMAGE  ": ",3(3D," :")
-
 2520  IMAGE  "-----------------"
-
 
 2528  REM --- COMMAND: 3 = FIRE PHASERS
 
@@ -716,18 +717,26 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 3550  GOTO 1270
 
 3558  REM --- COMMAND: 6 = DAMAGE CONTROL REPORT
+
+3559  REM --- if damage control is damaged then print info and ask for next command
 3560  IF D[6] >= 0 THEN 3590
 3570  PRINT "DAMAGE CONTROL REPORT IS NOT AVAILABLE"
 3580  GOTO 1270
+
+3589  REM --- display state of repair for each device
 3590  PRINT
 3600  PRINT "DEVICE        STATE OF REPAIR"
 3610  FOR R1=1 TO 8
+3619  REM --- print device name
 3620  GOSUB 5610
+3629  REM --- print device value
 3630  PRINT "",D[R1]
 3640  NEXT R1
 3650  PRINT
+3649  REM --- ask for next command
 3660  GOTO 1270
 
+3669  REM --- print info that srs detected no klingons in quadrant and ask for next command
 3670  PRINT "SHORT RANGE SENSORS REPORT NO KLINGONS IN THIS QUADRANT"
 3680  GOTO 1270
 
@@ -902,47 +911,74 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 4620  IMAGE  8(X,3A),8X,"SHIELDS",8X,6D
 
 
+4628  REM --- COMMAND: 7 = CALL ON LIBRARY COMPUTER
 
-
+4629  REM --- if computer is damaged then print info and ask for next command 
 4630  IF D[8]   >= 0 THEN 4660
 4640  PRINT "COMPUTER DISABLED"
 4650  GOTO 1270
+
+4659  REM --- ask for computer command index
 4660  PRINT "COMPUTER ACTIVE AND AWAITING COMMAND";
 4670  INPUT A
+
+4679  REM --- dispatch command on index
 4680  GOTO A+1 OF 4740,4830,4880
+4729  REM --- if other index than 0,1,2 display command list and ask again
 4690  PRINT "FUNCTIONS AVAILABLE FROM COMPUTER"
 4700  PRINT "   0 = CUMULATIVE GALACTIC RECORD"
 4710  PRINT "   1 = STATUS REPORT"
 4720  PRINT "   2 = PHOTON TORPEDO DATA"
 4730  GOTO 4660
+
+4739  REM --- cumulative galaxy record
 4740  PRINT  USING 4750;Q1,Q2
 4750  IMAGE  "COMPUTER RECORD OF GALAXY FOR QUADRANT ",D,",",D
+
 4760  PRINT  USING 5330
 4770  PRINT  USING 5360
+
 4780  FOR I=1 TO 8
 4790  PRINT  USING 5350;I,Z[I,1],Z[I,2],Z[I,3],Z[I,4],Z[I,5],Z[I,6],Z[I,7],Z[I,8]
 4800  PRINT  USING 5360
 4810  NEXT I
+
+4819  REM --- ask for next command
 4820  GOTO 1270
+
+
+4828  REM --- status report
+4829  REM --- octal 12 is decimal 10, in ascii this is line feed
 4830  PRINT "\012   STATUS REPORT\012"
 4840  PRINT "NUMBER OF KLINGONS LEFT ="K9
 4850  PRINT "NUMBER OF STARDATES LEFT ="(T0+T9)-T
 4860  PRINT "NUMBER OF STARBASES LEFT ="B9
+4669  REM --- damage control report and then ask for new command
 4870  GOTO 3560
+
+4878  REM --- photon torpedo data
+4879  REM --- for every klingon ...
 4880  PRINT 
+4889  REM --- H8 is never set to any other value than 0
 4890  H8=0
 4900  FOR I=1 TO 3
+4909  REM --- if this klingon is not here then next  klingon
 4910  IF K[I,3] <= 0 THEN 5260
+
+4919  REM --- (C2,A)=sector coordinates in quadrant
 4920  C1=S1
 4930  A=S2
+4939  REM --- (W1,X)=klingon sector coordinates in quadrant
 4940  W1=K[I,1]
 4950  X=K[I,2]
 4960  GOTO 5010
 
+4969  REM --- use the calculator
 4970  PRINT  USING 4980;Q1,Q2,S1,S2
 4980  IMAGE  "YOU ARE AT QUADRANT ( ",D,",",D," )  SECTOR ( ",D,",",D," )"
 4990  PRINT "SHIP'S & TARGET'S COORDINATES ARE";
 5000  INPUT C1,A,W1,X
+
 5010  X=X-A
 5020  A=C1-W1
 5030  IF X<0 THEN 5130
@@ -969,13 +1005,17 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 5240  PRINT "DISTANCE ="(SQR(X^2+A^2))
 5250  IF H8=1 THEN 5320
 5260  NEXT I
+
 5270  H8=0
 5280  PRINT "DO YOU WANT TO USE THE CALCULATOR";
 5290  INPUT A$
 5300  IF A$="YES" THEN 4970
 5310  IF A$ <> "NO" THEN 5280
 5320  GOTO 1270
+
+5329  REM --- formats for cumulative galaxy record
 5330  IMAGE  "     1     2     3     4     5     6     7     8"
+5339  REM --- next one is never used
 5340  IMAGE  "---------------------------------------------------"
 5350  IMAGE  D,8(3X,3D)
 5360  IMAGE  "   ----- ----- ----- ----- ----- ----- ----- -----"
@@ -1016,7 +1056,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 5590  S$[S8-144,S8-142]=A$
 5600  RETURN
 
-5609  REM --- print_device_name(R1:random device index)
+5609  REM --- print_device_name(R1:device index)
 5610  REM ****  PRINTS DEVICE NAME FROM ARRAY *****
 5620  S8=R1*12-11
 5630  IF S8>72 THEN 5660
@@ -1026,7 +1066,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 5670  RETURN
 
 5678  REM --- test_sector(Z1,Z2,A$)
-5679  REM --- returns Z3: 0 no match, 1 matched
+5679  REM --- returns Z3: 0 matched, 1 no match
 5680  REM *******  STRING COMPARISON IN QUADRANT ARRAY **********
 5683  Z1=INT(Z1+.5)
 5686  Z2=INT(Z2+.5)
