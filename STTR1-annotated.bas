@@ -1202,5 +1202,4 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 6400  PRINT "     AND ALL KLINGONS IN YOUR QUADRANT"
 6410  RETURN
 
-
 6420  END
