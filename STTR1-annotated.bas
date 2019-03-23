@@ -971,46 +971,101 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 4939  REM --- (W1,X)=klingon sector coordinates in quadrant
 4940  W1=K[I,1]
 4950  X=K[I,2]
+4959  REM --- first time do not offer the calculator
 4960  GOTO 5010
 
 4969  REM --- use the calculator
+4069  REM --- ask for enterprise and target coords and use them as usual
 4970  PRINT  USING 4980;Q1,Q2,S1,S2
 4980  IMAGE  "YOU ARE AT QUADRANT ( ",D,",",D," )  SECTOR ( ",D,",",D," )"
 4990  PRINT "SHIP'S & TARGET'S COORDINATES ARE";
 5000  INPUT C1,A,W1,X
 
+5009  REM --- xdiff = klingon x coord - enterprise xcoord 
 5010  X=X-A
+5019  REM --- ydiff = enterprise y coord - klingon ycoord 
 5020  A=C1-W1
+
+5029  REM --- if xdiff < 0
 5030  IF X<0 THEN 5130
+5031  REM --- otherwise xdiff >= 0
+5039  REM --- if ydiff < 0
 5040  IF A<0 THEN 5190
+5041  REM --- otherwise xdiff >= 0 and ydiff >= 0
+5049  REM --- if xdiff > 0
 5050  IF X>0 THEN 5070
+5051  REM --- otherwise xdiff == 0 and ydiff >= 0
+5059  REM --- if ydiff zero
 5060  IF A=0 THEN 5150
+5051  REM --- otherwise xdiff == 0 and ydiff == 0
+5052  REM --- but this should  never happen, since enterprise cannot be at same sector as klingon
+
+5067  REM --- here if xdiff > 0
+5068  REM ---      or xdiff == ydiff == 0 (but thats not possible)
+5069  REM --- default course 1
 5070  C1=1
+
+5078  REM --- here if (xdiff > 0 and course=1() or (xdiff < 0 and ydiff <= 0 and course=5)
+5079  REM --- if |ydiff| <= |xdiff|
 5080  IF ABS(A) <= ABS(X) THEN 5110
+5075  REM --- otherwise |ydiff| > |xdiff|
+5076  REM --- that means |ydiff| - |xdiff| > 0
+5077  REM --- dir = course + (|ydiff|-|xdiff|+|ydiff|)/|ydiff|
+5078  REM ---     = course + (2|ydiff|-|xdiff|)/|ydiff|
+5079  REM ---     = course + 2 - |xdiff|/|ydiff|
 5090  PRINT "DIRECTION ="C1+(((ABS(A)-ABS(X))+ABS(A))/ABS(A))
 5100  GOTO 5240
+5109  REM --- otherwise |ydiff| > |xdiff|
+5077  REM --- dir = course + |ydiff|/|xdiff|
 5110  PRINT "DIRECTION ="C1+(ABS(A)/ABS(X))
 5120  GOTO 5240
+
+5128  REM --- here if xdiff < 0
+5129  REM --- if ydiff > 0
 5130  IF A>0 THEN 5170
+5131  REM --- otherwise xdiff < 0 and ydiff <= 0
+5139  REM --- if xdiff == 0 ... but technically that is not possible
 5140  IF X=0 THEN 5190
 5150  C1=5
 5160  GOTO 5080
+
+5169  REM --- here if xdiff < 0 and ydiff > 0
 5170  C1=3
 5180  GOTO 5200
+
+5189  REM --- here if xdiff >= 0 and ydiff < 0
 5190  C1=7
+
+5197  REM --- here if (xdiff >= 0 and ydiff < 0 and course=7)
+5198  REM ---      or (xdiff < 0 and ydiff > 0 and course=3)
+5199  REM --- if |ydiff| >= |xdiff|
 5200  IF ABS(A) >= ABS(X) THEN 5230
+5291  REM --- otherwise |ydiff| < |xdiff|
+5207  REM --- dir = course + (|xdiff|-|ydiff|+|xdiff|)/|xdiff|
+5208  REM ---     = course + (2|xdiff|-|ydiff|)/|xdiff|
+5209  REM ---     = course + 2 - |ydiff|/|xdiff|
 5210  PRINT "DIRECTION ="C1+(((ABS(X)-ABS(A))+ABS(X))/ABS(X))
 5220  GOTO 5240
+5228  REM --- otherwise |ydiff| < |xdiff|
+5229  REM --- dir = course + |xdiff|/|ydiff| 
 5230  PRINT "DIRECTION ="C1+(ABS(X)/ABS(A))
+5239  REM --- dist = sqrt(|xdiff|^2+|ydiff|^2)
 5240  PRINT "DISTANCE ="(SQR(X^2+A^2))
+
+5249  REM --- H8 is never ever set to 1; maybe a forgotten debug flag
 5250  IF H8=1 THEN 5320
+
+5259  REM --- next klingon
 5260  NEXT I
 
 5270  H8=0
+
+5279  REM --- offer calculator
 5280  PRINT "DO YOU WANT TO USE THE CALCULATOR";
 5290  INPUT A$
 5300  IF A$="YES" THEN 4970
 5310  IF A$ <> "NO" THEN 5280
+5319  REM --- if NO ask for next command
 5320  GOTO 1270
 
 5329  REM --- formats for cumulative galaxy record
