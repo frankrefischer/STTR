@@ -59,7 +59,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 340  S9=200
 
 348  REM --- start shield energy units is 0
-349  REM --- H8 is useless, maybe a forgotten debug flaf
+349  REM --- H8 is useless, maybe a forgotten debug flag
 350  S=H8=0
 
 359  REM --- compute distance from current sector (S1,S2) to klingon ship I coords: (K[I,1],K[I,2])
@@ -134,7 +134,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 700  B3=1
 710  B9=B9+1
 
-719  REM --- 1 to 8 stars in sector
+719  REM --- 1 to 8 stars in quadrant
 720  S3=INT(RND(1)*8+1)
 
 729  REM --- store number of klingons, number of starbases, number of stars in galaxy map
