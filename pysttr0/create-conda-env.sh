@@ -1,0 +1,1 @@
+conda create -n pysttr0 python=3.10
