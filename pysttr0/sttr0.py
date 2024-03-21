@@ -1,19 +1,25 @@
 import datetime
 import math
 import random
+from typing import Union, Optional
 
 import click
+
+def PRINT(*args, USING: Optional[int] = None):
+    if USING is None:
+        print(*args)
+    else:
 
 
 @click.command()
 def main():
-    gosub_5460()
+    GOSUB_5460()
     print("                          STAR TREK ")
     A = input("DO YOU WANT INSTRUCTIONS (THEY'RE LONG!)")
     if A != "YES":
         _230_program_starts_here()
     else:
-        gosub_5820()
+        GOSUB_5820()
 
 
 def INT(x):
@@ -24,8 +30,15 @@ def RND(x):
     return random.random()
 
 
-global S1
-global I
+global A_, C_, D_, E_, Q_, R_, S_, Z_
+global C, D, E, G, I, J, K, N, P, S, T, X, Z
+global D0, E0, P0, T0
+global Q1, R1, S1, Z1
+global Q2, R2, S2, Z2
+global B3, K3, S3, Z3
+global K7, T7
+global H8, S8
+global B9, K9, S9, T9
 
 
 class DIM:
@@ -35,13 +48,22 @@ class DIM:
         else:
             self._ = [None for _ in range(d1)]
 
-    def __getitem__(self, index):
+    def __getitem__(self, index: int) -> Union[None, str, int, float, 'DIM']:
         assert 1 <= index <= len(self._)
         return self._[index - 1]
 
-    def __setitem__(self, index, value):
+    def __setitem__(self, index: int, value):
         assert 1 <= index <= len(self._)
         self._[index - 1] = value
+
+    def ZER(self):
+        for i in range(len(self._)):
+            if type(self._[i]) is DIM:
+                if self._[i] is not None:
+                    self._: Union[str, int, float, 'DIM']
+                    self._[i].ZER()
+            else:
+                self._[i] = 0
 
     def __repr__(self):
         return '[' + ','.join([str(x) for x in self._]) + ']'
@@ -61,11 +83,10 @@ def TIM(x):
 
 
 def _230_program_starts_here():
-    global Z_, G, C, K, N, Z, C_, D_, E_, A_, Q_, R_, S_, T0, T
-    global T9, D0, E0, E, P0, P, S9, S, H8, Q1, Q2, S1, S2, T7
-    global B9, K9, I, J, R1, K3, B3, S3, K7
+    global Z_
     Z_ = "                                                                      "
-    gosub_5460()
+    GOSUB_5460()
+    global G, C, K, N, Z, C_, D_, E_, A_, Q_, R_, S_, T0, T, T9, D0, E0, E, P0, P, S9, S, H8, Q1, Q2, S1, S2, T7
     G = DIM(8, 8)
     C = DIM(9, 2)
     K = DIM(3, 3)
@@ -93,16 +114,21 @@ def _230_program_starts_here():
     C[2][1] = C[3][1] = C[4][1] = C[4][2] = C[5][2] = C[6][2] = -1
     C[1][1] = C[3][2] = C[5][1] = C[7][2] = C[9][1] = 0
     C[1][2] = C[2][2] = C[6][1] = C[7][1] = C[8][1] = C[8][2] = C[9][2] = 1
-    # MAT D=ZER
+    D.ZER()
     D_ = "WARP ENGINESS.R. SENSORSL.R. SENSORSPHASER CNTRLPHOTON TUBESDAMAGE CNTRL"
     E_ = "SHIELD CNTRLCOMPUTER"
 
+    global B9, K9
     B9 = K9 = 0
     while B9 <= 0 or K9 <= 0:
         B9 = K9 = 0
+        global I
         for I in range(1, 8 + 1):
+            global J
             for J in range(1, 8 + 1):
+                global R1
                 R1 = RND(1)
+                global K3
                 if R1 > .98:
                     K3 = 3
                     K9 = K9 + 3
@@ -115,19 +141,232 @@ def _230_program_starts_here():
                 else:
                     K3 = 0
                 R1 = RND(1)
+                global B3
                 if R1 > .96:
                     B3 = 1
                     B9 = B9 + 1
                 else:
                     B3 = 0
+                global S3
                 S3 = INT(RND(1) * 8 + 1)
                 G[I][J] = K3 * 100 + B3 * 10 + S3
                 Z[I][J] = 0
+        global K7
         K7 = K9
     print("YOU MUST DESTROY", K9, "KLINGONS IN", T9, "STARDATES WITH", B9, "STARBASES")
+    K3 = B3 = S3 = 0
+    global X
+    # 820
+    if not (Q1 < 1 or Q1 > 8 or Q2 < 1 or Q2 > 8):  # -> 920
+        # 830
+        # 870
+        if not (K3 == 0):
+            # 880
+            if not (S > 200):
+                # 890
+                print("COMBAT AREA      CONDITION RED")
+                print("   SHIELDS DANGEROUSLY LOW")
+        # 910
+        K.ZER()
+    # 920
+    for I in range(1, 3 + 1):
+        K[I][3] = 0
+    # 950
+    Q_ = Z_
+    R_ = Z_
+    S_ = Z_[1][48]
+    A_ = "<*>"
+    global Z1, Z2
+    Z1 = S1
+    Z2 = S2
+    # 1010
+    GOSUB_5510()
+    # 1020
+    for I in range(1, K3 + 1):
+        # 1030
+        GOSUB_5380()
+        # 1040
+        A_ = "+++"
+        Z1 = R1
+        Z2 = R2
+        # 1070
+        GOSUB_5510()
+        # 1080
+        K[I][1] = R1
+        K[I][2] = R2
+        K[I][3] = S9
+    # 1120
+    for I in range(1, B3 + 1):
+        # 1130
+        GOSUB_5380()
+        # 1140
+        A_ = ">!<"
+        Z1 = R1
+        Z2 = R2
+        # 1170
+        GOSUB_5510()
+    # 1190
+    for I in range(1, S3 + 1):
+        # 1200
+        GOSUB_5380()
+        # 1210
+        A_ = " * "
+        Z1 = R1
+        Z2 = R2
+        # 1240
+        GOSUB_5510()
+    # 1260
+    GOSUB_4120()
+    # 1270
+    ...
 
 
-def gosub_5820():
+# regular end of loop in 4210
+# 4220  D0=0
+# 4230  GOTO 4310
+
+# after loop break in 4190
+# 4240  D0=1
+# 4250  C$="DOCKED"
+# 4260  E=3000
+# 4270  P=10
+# 4280  PRINT "SHIELDS DROPPED FOR DOCKING PURPOSES"
+# 4290  S=0
+# 4300  GOTO 4380
+
+# rest of regular end of loop from 4230
+# 4310  IF K3>0 THEN 4350
+# 4320  IF E<E0*.1 THEN 4370
+# 4330  C$="GREEN"
+# 4340  GOTO 4380
+
+# 4350  C$="RED"
+# 4360  GOTO 4380
+
+# 4370  C$="YELLOW"
+
+# from 4370, 4360 4340 4300
+# 4380  IF D[2] >= 0 THEN 4430
+
+# from 4380
+# 4390  PRINT
+# 4400  PRINT "*** SHORT RANGE SENSORS ARE OUT ***"
+# 4410  PRINT
+# 4420  GOTO 4530
+
+# from 4380
+# 4430  PRINT  USING 4540
+# 4440  PRINT  USING 4550;Q$[1,3],Q$[4,6],Q$[7,9],Q$[10,12],Q$[13,15],Q$[16,18],Q$[19,21],Q$[22,24]
+# 4450  PRINT  USING 4560;Q$[25,27],Q$[28,30],Q$[31,33],Q$[34,36],Q$[37,39],Q$[40,42],Q$[43,45],Q$[46,48],T
+# 4460  PRINT  USING 4570;Q$[49,51],Q$[52,54],Q$[55,57],Q$[58,60],Q$[61,63],Q$[64,66],Q$[67,69],Q$[70,72],C$
+# 4470  PRINT  USING 4580;R$[1,3],R$[4,6],R$[7,9],R$[10,12],R$[13,15],R$[16,18],R$[19,21],R$[22,24],Q1,Q2
+# 4480  PRINT  USING 4590;R$[25,27],R$[28,30],R$[31,33],R$[34,36],R$[37,39],R$[40,42],R$[43,45],R$[46,48],S1,S2
+# 4490  PRINT  USING 4600;R$[49,51],R$[52,54],R$[55,57],R$[58,60],R$[61,63],R$[64,66],R$[67,69],R$[70,72],E
+# 4500  PRINT  USING 4610;S$[1,3],S$[4,6],S$[7,9],S$[10,12],S$[13,15],S$[16,18],S$[19,21],S$[22,24],P
+# 4510  PRINT  USING 4620;S$[25,27],S$[28,30],S$[31,33],S$[34,36],S$[37,39],S$[40,42],S$[43,45],S$[46,48],S
+# 4520  PRINT  USING 4540
+
+# from 4520, 4420
+# 4530  RETURN
+
+
+def GOSUB_4120():
+    global I
+    # 4120
+    for I in range(S1 - 1, S1 + 1 + 1):
+        global J
+        # 4130
+        for J in range(S2 - 1, S2 + 1 + 1):
+            # 4140
+            if not (I < 1 or I > 8 or J < 1 or J > 8):  # otherwise 4200
+                # 4150
+                global A_, Z1, Z2
+                A_ = ">!<"
+                Z1 = I
+                Z2 = J
+                # 4180
+                GOSUB_5680()
+                # 4190
+                if Z3 == 1:  # else 4200
+                    # 4240
+                    global D0, C_, E, P, S
+                    D0 = 1
+                    C_ = "DOCKED"
+                    E = 3000
+                    P = 10
+                    print("SHIELDS DROPPED FOR DOCKING PURPOSES")
+                    S = 0
+                    # 4300 GOTO 4380
+    # 4200
+    # 4220
+    D0 = 0
+    # 4230 GOTO 4310
+    # 4310
+    ...
+    # 4380
+    if D[2] >= 0:
+        # 4430
+        print(USING_4540)
+        print(USING_4550, Q_[1][3],Q_[4][6],Q_[7][9],Q_[10][12],Q_[13][15],Q_[16][18],Q_[19][21],Q_[22][24])
+    else:
+        # 4390
+        print()
+        print("*** SHORT RANGE SENSORS ARE OUT ***")
+        print()
+        # 4420 GOTO 4530
+    # 4530 RETURN
+
+USING_4540 = "---------------------------------"
+
+def GOSUB_5380():
+    global Z3
+    Z3 = 0
+    while Z3 == 0:
+        global R1, R2, A_, Z1, Z2
+        R1 = INT(RND(1) * 8 + 1)
+        R2 = INT(RND(1) * 8 + 1)
+        A_ = "   "
+        Z1 = R1
+        Z2 = R2
+        GOSUB_5680()
+
+
+def GOSUB_5680():
+    global Z1, Z2, S8, Z3
+    # *******  STRING COMPARISON IN QUADRANT ARRAY **********
+    Z1 = INT(Z1 + .5)
+    Z2 = INT(Z2 + .5)
+    S8 = Z1 * 24 + Z2 * 3 - 26
+    Z3 = 0
+    if not (S8 > 72):
+        if Q_[S8][S8 + 2] != A_:
+            return
+        else:
+            Z3 = 1
+            return
+    if not (S8 > 144):
+        if R_[S8 - 72][S8 - 70] != A_:
+            return
+    else:
+        Z3 = 1
+        return
+
+
+def GOSUB_5510():
+    global S8
+    # ******  INSERTION IN STRING ARRAY FOR QUADRANT ******
+    S8 = Z1 * 24 + Z2 * 3 - 26
+    if not (S8 > 72):
+        Q_[S8][S8 + 2] = A_
+        return
+    if not (S8 > 144):
+        R_[S8 - 72][S8 - 70] = A_
+        return
+    S_[S8 - 144][S8 - 142] = A_
+    return
+
+
+def GOSUB_5820():
     print("     INSTRUCTIONS:")
     print("<*> = ENTERPRISE")
     print("+++ = KLINGON")
@@ -189,7 +428,7 @@ def gosub_5820():
     print("     AND ALL KLINGONS IN YOUR QUADRANT")
 
 
-def gosub_5460():
+def GOSUB_5460():
     i = 1
     while i <= 11:
         print()
