@@ -1,7 +1,7 @@
 import datetime
 import math
 import random
-from typing import Union, Optional
+from typing import Union
 
 import click
 
@@ -10,7 +10,7 @@ import click
 def main():
     GOSUB_5460()
     PRINT("                          STAR TREK ")
-    A = input("DO YOU WANT INSTRUCTIONS (THEY'RE LONG!)")
+    A = INPUT_STR("DO YOU WANT INSTRUCTIONS (THEY'RE LONG!)")
     if A != "YES":
         _230_program_starts_here()
     else:
@@ -26,6 +26,18 @@ def PRINT_USING(image, *args):
 
 
 def IMAGE(*args): return ''.join(*args)
+
+
+def INPUT_STR(*args):
+    return input(*args)
+
+
+def INPUT_NUM(*args):
+    s: str = input(*args)
+    if s.isnumeric():
+        return float(s)
+    else:
+        return 0.0
 
 
 _X = ' '
@@ -233,7 +245,64 @@ def _230_program_starts_here():
     # 1260
     GOSUB_4120()
     # 1270
-    ...
+    A = INPUT_NUM("COMMAND:")
+    # 1290
+    if A == 0:
+        # 1410
+        C1 = INPUT_NUM("COURSE (1-9):")
+        if C1 == 0:
+            # 1270
+            ...
+        else:
+            # 1440
+            if C1 < 1 or C1 >= 9:
+                # 1410
+                ...
+            else:
+                # 1450
+                W1 = INPUT_NUM("WARP FACTOR (0-8):")
+                # 1470
+                if W1 < 0 or W1 > 8:
+                    # 1410
+                    ...
+                else:
+                    # 1480
+
+
+    elif A == 1:
+        # 1260
+        ...
+    elif A == 2:
+        # 2330
+        ...
+    elif A == 3:
+        # 2530
+        ...
+    elif A == 4:
+        # 2800
+        ...
+    elif A == 5:
+        # 3460
+        ...
+    elif A == 6:
+        # 3560
+        ...
+    elif A == 7:
+        # 4630
+        ...
+    else:
+        # 1300
+        PRINT()
+        PRINT("   0 = SET COURSE")
+        PRINT("   1 = SHORT RANGE SENSOR SCA")
+        PRINT("   2 = LONG RANGE SENSOR SCAN")
+        PRINT("   3 = FIRE PHASERS")
+        PRINT("   4 = FIRE PHOTON TORPEDOES")
+        PRINT("   5 = SHIELD CONTROL")
+        PRINT("   6 = DAMAGE CONTROL REPORT")
+        PRINT("   7 = CALL ON LIBRARY COMPUTER")
+        PRINT()
+        # 1400 GOTO 1270
 
 
 # regular end of loop in 4210
@@ -288,6 +357,7 @@ def _230_program_starts_here():
 def GOSUB_4120():
     global I
     # 4120
+    break_flag = False
     for I in range(S1 - 1, S1 + 1 + 1):
         global J
         # 4130
@@ -303,26 +373,71 @@ def GOSUB_4120():
                 GOSUB_5680()
                 # 4190
                 if Z3 == 1:  # else 4200
-                    # 4240
-                    global D0, C_, E, P, S
-                    D0 = 1
-                    C_ = "DOCKED"
-                    E = 3000
-                    P = 10
-                    PRINT("SHIELDS DROPPED FOR DOCKING PURPOSES")
-                    S = 0
-                    # 4300 GOTO 4380
-    # 4200
-    # 4220
-    D0 = 0
-    # 4230 GOTO 4310
-    # 4310
-    ...
+                    # THEN 4240
+                    break_flag = True
+                    break
+        if break_flag:
+            break
+    if not break_flag:
+        # 4200
+        # 4220
+        D0 = 0
+        # 4230 GOTO 4310
+        # 4310
+        if K3 > 0:
+            # 4350
+            C_ = "RED"
+            # 4360 GOTO 4380
+        else:
+            # 4320
+            if E < E0 * .1:
+                # THEN 4370
+                C_ = "YELLOW"
+                # 4380
+            else:
+                # 4330
+                C_ = "GREEN"
+                # 4340 GOTO 4380
+    if break_flag:
+        # 4240
+        global D0, C_, E, P, S
+        D0 = 1
+        C_ = "DOCKED"
+        E = 3000
+        P = 10
+        PRINT("SHIELDS DROPPED FOR DOCKING PURPOSES")
+        S = 0
+        # 4300 GOTO 4380
     # 4380
     if D[2] >= 0:
         # 4430
         PRINT_USING(_4540)
-        PRINT_USING(_4550, Q_[1][3],Q_[4][6],Q_[7][9],Q_[10][12],Q_[13][15],Q_[16][18],Q_[19][21],Q_[22][24])
+        PRINT_USING(
+            _4550,
+            Q_[1][3], Q_[4][6], Q_[7][9], Q_[10][12], Q_[13][15], Q_[16][18], Q_[19][21], Q_[22][24])
+        PRINT_USING(
+            _4560,
+            Q_[25][27], Q_[28][30], Q_[31][33], Q_[34][36], Q_[37][39], Q_[40][42], Q_[43][45], Q_[46][48], T)
+        PRINT_USING(
+            _4570,
+            Q_[49, 51], Q_[52, 54], Q_[55, 57], Q_[58, 60], Q_[61, 63], Q_[64, 66], Q_[67, 69], Q_[70, 72], C_)
+        PRINT_USING(
+            _4580,
+            R_[1][3], R_[4][6], R_[7][9], R_[10][12], R_[13][15], R_[16][18], R_[19][21], R_[22][24], Q1, Q2)
+        PRINT_USING(
+            _4590,
+            R_[25][27], R_[28][30], R_[31][33], R_[34][36], R_[37][39], R_[40][42], R_[43][45], R_[46][48], S1, S2)
+        PRINT_USING(
+            _4600,
+            R_[49][51], R_[52][54], R_[55][57], R_[58][60], R_[61][63], R_[64][66], R_[67][69], R_[70][72], E)
+        PRINT_USING(
+            _4610,
+            S_[1][3], S_[4][6], S_[7][9], S_[10][12], S_[13][15], S_[16][18], S_[19][21], S_[22][24], P)
+        PRINT_USING(
+            _4620,
+            S_[25][27], S_[28][30], S_[31][33], S_[34][36], S_[37][39], S_[40][42], S_[43][45], S_[46][48], S)
+        PRINT_USING(_4540)
+        # 4530 RETURN
     else:
         # 4390
         PRINT()
