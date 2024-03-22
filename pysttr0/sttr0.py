@@ -5,21 +5,36 @@ from typing import Union, Optional
 
 import click
 
-def PRINT(*args, USING: Optional[int] = None):
-    if USING is None:
-        print(*args)
-    else:
-
 
 @click.command()
 def main():
     GOSUB_5460()
-    print("                          STAR TREK ")
+    PRINT("                          STAR TREK ")
     A = input("DO YOU WANT INSTRUCTIONS (THEY'RE LONG!)")
     if A != "YES":
         _230_program_starts_here()
     else:
         GOSUB_5820()
+
+
+def PRINT(*args):
+    print(*args)
+
+
+def PRINT_USING(image, *args):
+    print(image % args)
+
+
+def IMAGE(*args): return ''.join(*args)
+
+
+_X = ' '
+_8X = 8 * _X
+_3A = '%s'
+_6A = '%s'
+_D = '%s'
+_3D = '%s'
+_5D = '%s'
 
 
 def INT(x):
@@ -153,7 +168,7 @@ def _230_program_starts_here():
                 Z[I][J] = 0
         global K7
         K7 = K9
-    print("YOU MUST DESTROY", K9, "KLINGONS IN", T9, "STARDATES WITH", B9, "STARBASES")
+    PRINT("YOU MUST DESTROY", K9, "KLINGONS IN", T9, "STARDATES WITH", B9, "STARBASES")
     K3 = B3 = S3 = 0
     global X
     # 820
@@ -164,8 +179,8 @@ def _230_program_starts_here():
             # 880
             if not (S > 200):
                 # 890
-                print("COMBAT AREA      CONDITION RED")
-                print("   SHIELDS DANGEROUSLY LOW")
+                PRINT("COMBAT AREA      CONDITION RED")
+                PRINT("   SHIELDS DANGEROUSLY LOW")
         # 910
         K.ZER()
     # 920
@@ -294,7 +309,7 @@ def GOSUB_4120():
                     C_ = "DOCKED"
                     E = 3000
                     P = 10
-                    print("SHIELDS DROPPED FOR DOCKING PURPOSES")
+                    PRINT("SHIELDS DROPPED FOR DOCKING PURPOSES")
                     S = 0
                     # 4300 GOTO 4380
     # 4200
@@ -306,17 +321,27 @@ def GOSUB_4120():
     # 4380
     if D[2] >= 0:
         # 4430
-        print(USING_4540)
-        print(USING_4550, Q_[1][3],Q_[4][6],Q_[7][9],Q_[10][12],Q_[13][15],Q_[16][18],Q_[19][21],Q_[22][24])
+        PRINT_USING(_4540)
+        PRINT_USING(_4550, Q_[1][3],Q_[4][6],Q_[7][9],Q_[10][12],Q_[13][15],Q_[16][18],Q_[19][21],Q_[22][24])
     else:
         # 4390
-        print()
-        print("*** SHORT RANGE SENSORS ARE OUT ***")
-        print()
+        PRINT()
+        PRINT("*** SHORT RANGE SENSORS ARE OUT ***")
+        PRINT()
         # 4420 GOTO 4530
     # 4530 RETURN
 
-USING_4540 = "---------------------------------"
+
+_4540 = IMAGE("---------------------------------")
+_4550 = IMAGE(8 * (_X + _3A))
+_4560 = IMAGE(8 * (_X + _3A), _8X, "STARDATE", _8X, _5D)
+_4570 = IMAGE(8 * (_X + _3A), _8X, "CONDITION", _8X, _6A)
+_4580 = IMAGE(8 * (_X + _3A), _8X, "QUADRANT", 9 * _X, _D, ",", _D)
+_4590 = IMAGE(8 * (_X + _3A), _8X, "SECTOR", 11 * _X, _D, ",", _D)
+_4600 = IMAGE(8 * (_X + _3A), _8X, "ENERGY", 9 * _X, 6 * _D)
+_4610 = IMAGE(8 * (_X + _3A), _8X, "PHOTON TORPEDOES", _3D)
+_4620 = IMAGE(8 * (_X + _3A), _8X, "SHIELDS", _8X, *_D)
+
 
 def GOSUB_5380():
     global Z3
@@ -367,71 +392,71 @@ def GOSUB_5510():
 
 
 def GOSUB_5820():
-    print("     INSTRUCTIONS:")
-    print("<*> = ENTERPRISE")
-    print("+++ = KLINGON")
-    print(">!< = STARBASE")
-    print(" *  = STAR")
-    print("COMMAND 0 = WARP ENGINE CONTROL")
-    print("  'COURSE' IS IN A CIRCULAR NUMERICAL          4  3  2")
-    print("  VECTOR ARRANGEMENT AS SHOWN.                  \\ ^ /")
-    print("  INTEGER AND REAL VALUES MAY BE                 \\^/")
-    print("  USED.  THEREFORE COURSE 1.5 IS              5 ----- 1")
-    print("  HALF WAY BETWEEN 1 AND 2.                      /^\\")
-    print("                                                / ^ \\")
-    print("  A VECTOR OF 9 IS UNDEFINED, BUT              6  7  8")
-    print("  VALUES MAY APPROACH 9.")
-    print("                                               COURSE")
-    print("  ONE 'WARP FACTOR' IS THE SIZE OF")
-    print("  ONE QUADRANT.  THEREFORE TO GET")
-    print("  FROM QUADRANT 6,5 TO 5,5 YOU WOULD")
-    print("  USE COURSE 3, WARP FACTOR 1")
-    print("COMMAND 1 = SHORT RANGE SENSOR SCAN")
-    print("  PRINTS THE QUADRANT YOU ARE CURRENTLY IN, INCLUDING")
-    print("  STARS, KLINGONS, STARBASES, AND THE ENTERPRISE; ALONG")
-    print("  WITH OTHER PERTINATE INFORMATION.")
-    print("COMMAND 2 = LONG RANGE SENSOR SCAN")
-    print("  SHOWS CONDITIONS IN SPACE FOR ONE QUADRANT ON EACH SIDE")
-    print("  OF THE ENTERPRISE IN THE MIDDLE OF THE SCAN.  THE SCAN")
-    print("  IS CODED IN THE FORM XXX, WHERE THE UNITS DIGIT IS THE")
-    print("  NUMBER OF STARS, THE TENS DIGIT IS THE NUMBER OF STAR-")
-    print("  BASES, THE HUNDREDS DIGIT IS THE NUMBER OF KLINGONS.")
-    print("COMMAND 3 = PHASER CONTROL")
-    print("  ALLOWS YOU TO DESTROY THE KLINGONS BY HITTING HIM WITH")
-    print("  SUITABLY LARGE NUMBERS OF ENERGY UNITS TO DEPLETE HIS ")
-    print("  SHIELD POWER.  KEEP IN MIND THAT WHEN YOU SHOOT AT")
-    print("  HIM, HE GONNA DO IT TO YOU TOO.")
-    print("COMMAND 4 = PHOTON TORPEDO CONTROL")
-    print("  COURSE IS THE SAME AS USED IN WARP ENGINE CONTROL")
-    print("  IF YOU HIT THE KLINGON, HE IS DESTROYED AND CANNOT FIRE")
-    print("  BACK AT YOU.  IF YOU MISS, HE WILL SHOOT HIS PHASERS AT")
-    print("  YOU.")
-    print("   NOTE: THE LIBRARY COMPUTER (COMMAND 7) HAS AN OPTION")
-    print("   TO COMPUTE TORPEDO TRAJECTORY FOR YOU (OPTION 2).")
-    print("COMMAND 5 = SHIELD CONTROL")
-    print("  DEFINES NUMBER OF ENERGY UNITS TO BE ASSIGNED TO SHIELDS")
-    print("  ENERGY IS TAKEN FROM TOTAL SHIP'S ENERGY.")
-    print("COMMAND 6 = DAMAGE CONTROL REPORT")
-    print("  GIVES STATE OF REPAIRS OF ALL DEVICES.  A STATE OF REPAIR")
-    print("  LESS THAN ZERO SHOWS THAT THAT DEVICE IS TEMPORARALY")
-    print("  DAMAGED.")
-    print("COMMAND 7 = LIBRARY COMPUTER")
-    print("  THE LIBRARY COMPUTER CONTAINS THREE OPTIONS:")
-    print("    OPTION 0 = CUMULATIVE GALACTIC RECORD")
-    print("     SHOWS COMPUTER MEMORY OF THE RESULTS OF ALL PREVIOUS")
-    print("     LONG RANGE SENSOR SCANS")
-    print("    OPTION 1 = STATUS REPORT")
-    print("     SHOWS NUMBER OF KLINGONS, STARDATES AND STARBASES")
-    print("     LEFT.")
-    print("    OPTION 2 = PHOTON TORPEDO DATA")
-    print("     GIVES TRAJECTORY AND DISTANCE BETWEEN THE ENTERPRISE")
-    print("     AND ALL KLINGONS IN YOUR QUADRANT")
+    PRINT("     INSTRUCTIONS:")
+    PRINT("<*> = ENTERPRISE")
+    PRINT("+++ = KLINGON")
+    PRINT(">!< = STARBASE")
+    PRINT(" *  = STAR")
+    PRINT("COMMAND 0 = WARP ENGINE CONTROL")
+    PRINT("  'COURSE' IS IN A CIRCULAR NUMERICAL          4  3  2")
+    PRINT("  VECTOR ARRANGEMENT AS SHOWN.                  \\ ^ /")
+    PRINT("  INTEGER AND REAL VALUES MAY BE                 \\^/")
+    PRINT("  USED.  THEREFORE COURSE 1.5 IS              5 ----- 1")
+    PRINT("  HALF WAY BETWEEN 1 AND 2.                      /^\\")
+    PRINT("                                                / ^ \\")
+    PRINT("  A VECTOR OF 9 IS UNDEFINED, BUT              6  7  8")
+    PRINT("  VALUES MAY APPROACH 9.")
+    PRINT("                                               COURSE")
+    PRINT("  ONE 'WARP FACTOR' IS THE SIZE OF")
+    PRINT("  ONE QUADRANT.  THEREFORE TO GET")
+    PRINT("  FROM QUADRANT 6,5 TO 5,5 YOU WOULD")
+    PRINT("  USE COURSE 3, WARP FACTOR 1")
+    PRINT("COMMAND 1 = SHORT RANGE SENSOR SCAN")
+    PRINT("  PRINTS THE QUADRANT YOU ARE CURRENTLY IN, INCLUDING")
+    PRINT("  STARS, KLINGONS, STARBASES, AND THE ENTERPRISE; ALONG")
+    PRINT("  WITH OTHER PERTINATE INFORMATION.")
+    PRINT("COMMAND 2 = LONG RANGE SENSOR SCAN")
+    PRINT("  SHOWS CONDITIONS IN SPACE FOR ONE QUADRANT ON EACH SIDE")
+    PRINT("  OF THE ENTERPRISE IN THE MIDDLE OF THE SCAN.  THE SCAN")
+    PRINT("  IS CODED IN THE FORM XXX, WHERE THE UNITS DIGIT IS THE")
+    PRINT("  NUMBER OF STARS, THE TENS DIGIT IS THE NUMBER OF STAR-")
+    PRINT("  BASES, THE HUNDREDS DIGIT IS THE NUMBER OF KLINGONS.")
+    PRINT("COMMAND 3 = PHASER CONTROL")
+    PRINT("  ALLOWS YOU TO DESTROY THE KLINGONS BY HITTING HIM WITH")
+    PRINT("  SUITABLY LARGE NUMBERS OF ENERGY UNITS TO DEPLETE HIS ")
+    PRINT("  SHIELD POWER.  KEEP IN MIND THAT WHEN YOU SHOOT AT")
+    PRINT("  HIM, HE GONNA DO IT TO YOU TOO.")
+    PRINT("COMMAND 4 = PHOTON TORPEDO CONTROL")
+    PRINT("  COURSE IS THE SAME AS USED IN WARP ENGINE CONTROL")
+    PRINT("  IF YOU HIT THE KLINGON, HE IS DESTROYED AND CANNOT FIRE")
+    PRINT("  BACK AT YOU.  IF YOU MISS, HE WILL SHOOT HIS PHASERS AT")
+    PRINT("  YOU.")
+    PRINT("   NOTE: THE LIBRARY COMPUTER (COMMAND 7) HAS AN OPTION")
+    PRINT("   TO COMPUTE TORPEDO TRAJECTORY FOR YOU (OPTION 2).")
+    PRINT("COMMAND 5 = SHIELD CONTROL")
+    PRINT("  DEFINES NUMBER OF ENERGY UNITS TO BE ASSIGNED TO SHIELDS")
+    PRINT("  ENERGY IS TAKEN FROM TOTAL SHIP'S ENERGY.")
+    PRINT("COMMAND 6 = DAMAGE CONTROL REPORT")
+    PRINT("  GIVES STATE OF REPAIRS OF ALL DEVICES.  A STATE OF REPAIR")
+    PRINT("  LESS THAN ZERO SHOWS THAT THAT DEVICE IS TEMPORARALY")
+    PRINT("  DAMAGED.")
+    PRINT("COMMAND 7 = LIBRARY COMPUTER")
+    PRINT("  THE LIBRARY COMPUTER CONTAINS THREE OPTIONS:")
+    PRINT("    OPTION 0 = CUMULATIVE GALACTIC RECORD")
+    PRINT("     SHOWS COMPUTER MEMORY OF THE RESULTS OF ALL PREVIOUS")
+    PRINT("     LONG RANGE SENSOR SCANS")
+    PRINT("    OPTION 1 = STATUS REPORT")
+    PRINT("     SHOWS NUMBER OF KLINGONS, STARDATES AND STARBASES")
+    PRINT("     LEFT.")
+    PRINT("    OPTION 2 = PHOTON TORPEDO DATA")
+    PRINT("     GIVES TRAJECTORY AND DISTANCE BETWEEN THE ENTERPRISE")
+    PRINT("     AND ALL KLINGONS IN YOUR QUADRANT")
 
 
 def GOSUB_5460():
     i = 1
     while i <= 11:
-        print()
+        PRINT()
         i += 1
 
 
