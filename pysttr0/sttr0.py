@@ -1,7 +1,7 @@
 import datetime
 import math
 import random
-from typing import Union
+from typing import Union, Optional
 
 import click
 
@@ -10,9 +10,19 @@ import click
 def main():
     GOSUB_5460()
     PRINT("                          STAR TREK ")
-    A = INPUT_STR("DO YOU WANT INSTRUCTIONS (THEY'RE LONG!)")
-    if A != "YES":
-        _230_program_starts_here()
+    global A_
+    A_ = INPUT_STR("DO YOU WANT INSTRUCTIONS (THEY'RE LONG!)")
+    if A_ != "YES":
+        while True:
+            try:
+                _230_program_starts_here()
+            except EnterpriseDestroyed:
+                ...
+            except EnterpriseDeadInSpace:
+                ...
+            except TimeOver:
+                ...
+
     else:
         GOSUB_5820()
 
@@ -25,7 +35,7 @@ def PRINT_USING(image, *args):
     print(image % args)
 
 
-def IMAGE(*args): return ''.join(*args)
+def IMAGE(*args): return ''.join(args)
 
 
 def INPUT_STR(*args):
@@ -37,16 +47,20 @@ def INPUT_NUM(*args):
     if s.isnumeric():
         return float(s)
     else:
-        return 0.0
+        return None
 
 
 _X = ' '
 _8X = 8 * _X
-_3A = '%s'
-_6A = '%s'
-_D = '%s'
-_3D = '%s'
-_5D = '%s'
+_9X = 9 * _X
+_11X = 11 * _X
+_3A = '%3s'
+_6A = '%6s'
+_D = '%1s'
+_3D = '%3s'
+_4D = '%4s'
+_5D = '%5s'
+_6D = '%6s'
 
 
 def INT(x):
@@ -60,13 +74,40 @@ def RND(x):
 global A_, C_, D_, E_, Q_, R_, S_, Z_
 global C, D, E, G, I, J, K, N, P, S, T, X, Z
 global D0, E0, P0, T0
-global Q1, R1, S1, Z1
+global C1, Q1, R1, S1, W1, Z1
 global Q2, R2, S2, Z2
 global B3, K3, S3, Z3
 global K7, T7
 global H8, S8
 global B9, K9, S9, T9
 
+
+def DIM_STRING(d: int):
+    return STRING(capacity=d)
+
+
+class STRING:
+    def __init__(self, string: Optional[str] = '', capacity: Optional[int] = None):
+        assert capacity is None or len(string) == 0 or len(string) == capacity, f'{string=} {capacity=}'
+        self.string: str = string
+        self.capacity: int = len(string) if capacity is None else capacity
+        assert len(self.string) == 0 or len(string) == self.capacity, f'{self.string=} {self.capacity=}'
+
+    def __len__(self):
+        return self.capacity
+
+    def __eq__(self, other):
+        return other == self.string
+
+    def __getitem__(self, i):
+        if isinstance(i, slice):
+            i: slice
+            return self.string[i.start-1:i.stop]
+        else:
+            return self.string[i]
+
+    def set(self, string: str):
+        assert len(string) == self.capacity
 
 class DIM:
     def __init__(self, d1, d2=0):
@@ -75,13 +116,44 @@ class DIM:
         else:
             self._ = [None for _ in range(d1)]
 
-    def __getitem__(self, index: int) -> Union[None, str, int, float, 'DIM']:
-        assert 1 <= index <= len(self._)
+    def __getitem__(self, index: Union[int, slice]) -> Union[None, str, int, float, 'DIM']:
+        if type(self._) is str:
+            if type(index) is int:
+                return self._[index - 1]
+            else:
+                index: slice
+                index_minus_1: slice = DIM._slice_minus_1(index)
+                return self._[index_minus_1]
+        assert type(index) is int, f'{type(index)=} {index=}'
+        assert 1 <= index <= len(self._), f'{index=}'
         return self._[index - 1]
 
-    def __setitem__(self, index: int, value):
+    @staticmethod
+    def _slice_minus_1(s: slice) -> slice:
+        return slice(
+            DIM._optional_int_minus_1(s.start),
+            DIM._optional_int_minus_1(s.stop),
+            DIM._optional_int_minus_1(s.step),
+        )
+
+    @staticmethod
+    def _optional_int_minus_1(i: Optional[int]) -> Optional[int]:
+        if i is None:
+            return None
+        else:
+            return i - 1
+
+    def __setitem__(self, index: Union[int, slice], value):
+        if type(self._) is str:
+            return self._.__getitem__(index)
+        assert type(index) is int, f'{type(index)=} {index=}'
+        assert 1 <= index <= len(self._), f'{index=}'
+
         assert 1 <= index <= len(self._)
         self._[index - 1] = value
+
+    def __len__(self):
+        return self._.__len__()
 
     def ZER(self):
         for i in range(len(self._)):
@@ -93,7 +165,10 @@ class DIM:
                 self._[i] = 0
 
     def __repr__(self):
-        return '[' + ','.join([str(x) for x in self._]) + ']'
+        if type(self._) is str:
+            return self._
+        else:
+            return '[' + ','.join([str(x) for x in self._]) + ']'
 
 
 def FND(D):
@@ -111,11 +186,13 @@ def TIM(x):
 
 def _230_program_starts_here():
     global Z_
-    Z_ = "                                                                      "
+    Z_ = STRING('                                                                        ')
+    Z_ = STRING('........................................................................')
     GOSUB_5460()
-    global G, C, K, N, Z, C_, D_, E_, A_, Q_, R_, S_, T0, T, T9, D0, E0, E, P0, P, S9, S, H8, Q1, Q2, S1, S2, T7
+    global G, C, D, K, N, Z, C_, D_, E_, A_, Q_, R_, S_, T0, T, T9, D0, E0, E, P0, P, S9, S, H8, Q1, Q2, S1, S2, T7
     G = DIM(8, 8)
     C = DIM(9, 2)
+    D = DIM(8)
     K = DIM(3, 3)
     N = DIM(3)
     Z = DIM(8, 8)
@@ -181,6 +258,36 @@ def _230_program_starts_here():
         global K7
         K7 = K9
     PRINT("YOU MUST DESTROY", K9, "KLINGONS IN", T9, "STARDATES WITH", B9, "STARBASES")
+    _810()
+    # 1260
+    GOSUB_4120()
+    while True:
+        # 1270
+        A = INPUT_NUM("COMMAND:")
+        # 1290
+        if A == 0:
+            _1410_command_0_set_course()
+        elif A == 1:
+            _1260_command_1_short_range_sensor_scan()
+        elif A == 2:
+            _2330_command_2_long_range_sensor_scan()
+        elif A == 3:
+            _2530_command_3_fire_phases()
+        elif A == 4:
+            _2800_command_4_fire_photon_torpedoes()
+        elif A == 5:
+            _3460_command_5_shield_control()
+        elif A == 6:
+            _3560_command_6_damage_control_report()
+        elif A == 7:
+            _4630_command_7_call_on_libray_computer()
+        else:
+            _1300_display_commands()
+
+
+def _810():
+    global K3, B3, S3
+    # 810
     K3 = B3 = S3 = 0
     global X
     # 820
@@ -196,12 +303,14 @@ def _230_program_starts_here():
         # 910
         K.ZER()
     # 920
+    global I
     for I in range(1, 3 + 1):
         K[I][3] = 0
     # 950
+    global Q_, R_, S_, A_
     Q_ = Z_
     R_ = Z_
-    S_ = Z_[1][48]
+    S_ = Z_[:48]
     A_ = "<*>"
     global Z1, Z2
     Z1 = S1
@@ -242,116 +351,334 @@ def _230_program_starts_here():
         Z2 = R2
         # 1240
         GOSUB_5510()
-    # 1260
-    GOSUB_4120()
-    # 1270
-    A = INPUT_NUM("COMMAND:")
-    # 1290
-    if A == 0:
+
+
+def _1300_display_commands():
+    PRINT()
+    PRINT("   0 = SET COURSE")
+    PRINT("   1 = SHORT RANGE SENSOR SCA")
+    PRINT("   2 = LONG RANGE SENSOR SCAN")
+    PRINT("   3 = FIRE PHASERS")
+    PRINT("   4 = FIRE PHOTON TORPEDOES")
+    PRINT("   5 = SHIELD CONTROL")
+    PRINT("   6 = DAMAGE CONTROL REPORT")
+    PRINT("   7 = CALL ON LIBRARY COMPUTER")
+    PRINT()
+
+
+def _1410_command_0_set_course():
+    global C1, W1
+    C1 = -1
+    W1 = -1
+    while C1 < 0 or C1 >= 9 or W1 < 0 or W1 > 8:
         # 1410
         C1 = INPUT_NUM("COURSE (1-9):")
+        # 1430
         if C1 == 0:
-            # 1270
+            return
+        # 1450
+        W1 = INPUT_NUM("WARP FACTOR (0-8):")
+        if not (D[1] >= 0 or W1 <= .2):
+            # 1490
+            PRINT("WARP ENGINES ARE DAMAGED, MAXIMUM SPEED = WARP .2")
+            continue
+    # 1510
+    if K3 <= 0:
+        # 1560
+        if E > 0:
+            _1610()
+        else:
+            # 1570
+            if S < 1:
+                # 3920
+                _3920_enterprise_dead_in_space()
+            else:
+                # 1580
+                ...
+
+    else:
+        # 1520
+        GOSUB_3790()
+        # 1530
+        if K3 <= 0:
+            # 1560
+            if E > 0:
+                _1610()
+            else:
+                # 1570
+                if S1 < 1:
+                    # 3920
+                    _3920_enterprise_dead_in_space()
+                else:
+                    # 1580
+                    PRINT("YOU HAVE", E, " UNITS OF ENERGY")
+                    PRINT("SUGGEST YOU GET SOME FROM YOUR SHIELDS WHICH HAVE", S, " UNITS LEFT")
+                    return
+        else:
+            # 1540
+            if S < 0:
+                _4000_enterprise_destroyed()
+            else:
+                # 1550 GOTO 1610
+                ...
+
+
+def _1610():
+    # 1610
+    global I, E, T
+    for I in range(1, 8 + 1):
+        # 1620
+        if D[I] >= 0:
+            # 1640 NEXT I
             ...
         else:
-            # 1440
-            if C1 < 1 or C1 >= 9:
-                # 1410
-                ...
-            else:
-                # 1450
-                W1 = INPUT_NUM("WARP FACTOR (0-8):")
-                # 1470
-                if W1 < 0 or W1 > 8:
-                    # 1410
-                    ...
-                else:
-                    # 1480
-
-
-    elif A == 1:
-        # 1260
-        ...
-    elif A == 2:
-        # 2330
-        ...
-    elif A == 3:
-        # 2530
-        ...
-    elif A == 4:
-        # 2800
-        ...
-    elif A == 5:
-        # 3460
-        ...
-    elif A == 6:
-        # 3560
-        ...
-    elif A == 7:
-        # 4630
+            # 1630
+            D[I] = D[I] + 1
+            # 1640 NEXT I
+    # 1640 NEXT I
+    # 1650
+    if RND(1) >= .2:
+        # 1810
         ...
     else:
-        # 1300
-        PRINT()
-        PRINT("   0 = SET COURSE")
-        PRINT("   1 = SHORT RANGE SENSOR SCA")
-        PRINT("   2 = LONG RANGE SENSOR SCAN")
-        PRINT("   3 = FIRE PHASERS")
-        PRINT("   4 = FIRE PHOTON TORPEDOES")
-        PRINT("   5 = SHIELD CONTROL")
-        PRINT("   6 = DAMAGE CONTROL REPORT")
-        PRINT("   7 = CALL ON LIBRARY COMPUTER")
-        PRINT()
-        # 1400 GOTO 1270
+        # 1660
+        global R1
+        R1 = INT(RND(1) * 8 + 1)
+        # 1670
+        if RND(1) >= .5:
+            # 1750
+            D[R1] = D[R1] + (RND(1) * 5 + 1)
+            PRINT()
+            PRINT("DAMAGE CONTROL REPORT:")
+            # 1780
+            GOSUB_5610()
+            # 1790
+            PRINT(" STATE OF REPAIR IMPROVED")
+            PRINT()
+            global N, W1
+            N = INT(W1 * 8)
+            global A_, Z1, Z2
+            A_ = "   "
+            global S1, S2
+            Z1 = S1
+            Z2 = S2
+            # 1850
+            GOSUB_5510()
+            # 1860
+            global X
+            X = S1
+            Y = S2
+            C2 = INT(C1)
+            X1 = C[C2][1] + (C[C2 + 1][1] - C[C2][1]) * (C1 - C2)
+            X2 = C[C2][2] + (C[C2 + 1][2] - C[C2][2]) * (C1 - C2)
+            # 1910
+            for I in range(1, N + 1):
+                # 1920
+                S1 = S1 + X1
+                S2 = S2 + X2
+                # 1940
+                if S1 < .5 or S1 >= 8.5 or S2 < .5 or S2 >= 8.5:
+                    # 2170
+                    global Q1, Q2
+                    X = Q1 * 8 + X + X1 * N
+                    Y = Q2 * 8 + Y + X2 * N
+                    Q1 = INT(X / 8)
+                    Q2 = INT(Y / 8)
+                    S1 = INT(X - Q1 * 8 + .5)
+                    S2 = INT(Y - Q2 * 8 + .5)
+                    # 2230
+                    if S1 != 0:
+                        # 2260
+                        ...
+                    else:
+                        # 2240
+                        Q1 = Q1 - 1
+                        S1 = 8
+                    # 2260
+                    if S2 != 0:
+                        # 2290
+                        ...
+                    else:
+                        # 2270
+                        Q2 = Q2 - 1
+                        S2 = 8
+                    # 2290
+                    T = T + 1
+                    E = E - N + 5
+                    # 2310
+                    if T > T0 + T9:
+                        _3970_time_over()
+                    else:
+                        # 2320 GOTO 810
+                        _810()
+                        return
+                else:
+                    # 1950
+                    A_ = STRING('   ')
+                    Z1 = S1
+                    Z2 = S2
+                    # 1980
+                    GOSUB_5680()
+                    # 1990
+                    if Z3 != 0:
+                        # 2070 NEXT I
+                        ...
+                    else:
+                        # 2030
+                        _5370 = IMAGE(" WARP ENGINES SHUTDOWN AT SECTOR ", D, ",", D, " DUE TO BAD NAVIGATION")
+                        PRINT_USING(_5370, S1, S2)
+                        S1 = S1 - X1
+                        S2 = S2 - X2
+                        # 2060 GOTO 2080
+                        break
+            # 2070 NEXT I
+            # 2080
+            A_ = STRING('<*>')
+            S1 = INT(S1 + .5)
+            S2 = INT(S2 + .5)
+            Z1 = S1
+            Z2 = S2
+            # 2110
+            GOSUB_5510()
+            # 2120
+            E = E - N + 5
+            # 2130
+            if W1 < 1:
+                # 2150
+                ...
+            else:
+                # 2140
+                T = T + 1
+            # 2150
+            if T > T0 + T9:
+                _3970_time_over()
+            else:
+                # 2160 GOTO 1260
+                ...
+        else:
+            # 1680
+            D[R1] = D[R1] - (RND(1) * 5 + 1)
+            PRINT()
+            PRINT("DAMAGE CONTROL REPORT:")
+            # 1710
+            GOSUB_5610()
+            PRINT(" DAMAGED")
+            PRINT()
+            # 1740 GOTO 1810
+
+    # 2160 GOTO 1260
+    GOSUB_4120()
 
 
-# regular end of loop in 4210
-# 4220  D0=0
-# 4230  GOTO 4310
+def _1260_command_1_short_range_sensor_scan():
+    import inspect
+    PRINT("NOT YET IMPLEMENTED:", inspect.currentframe().f_code.co_name)
 
-# after loop break in 4190
-# 4240  D0=1
-# 4250  C$="DOCKED"
-# 4260  E=3000
-# 4270  P=10
-# 4280  PRINT "SHIELDS DROPPED FOR DOCKING PURPOSES"
-# 4290  S=0
-# 4300  GOTO 4380
 
-# rest of regular end of loop from 4230
-# 4310  IF K3>0 THEN 4350
-# 4320  IF E<E0*.1 THEN 4370
-# 4330  C$="GREEN"
-# 4340  GOTO 4380
+def _2330_command_2_long_range_sensor_scan():
+    import inspect
+    PRINT("NOT YET IMPLEMENTED:", inspect.currentframe().f_code.co_name)
 
-# 4350  C$="RED"
-# 4360  GOTO 4380
 
-# 4370  C$="YELLOW"
+def _2530_command_3_fire_phases():
+    import inspect
+    PRINT("NOT YET IMPLEMENTED:", inspect.currentframe().f_code.co_name)
 
-# from 4370, 4360 4340 4300
-# 4380  IF D[2] >= 0 THEN 4430
 
-# from 4380
-# 4390  PRINT
-# 4400  PRINT "*** SHORT RANGE SENSORS ARE OUT ***"
-# 4410  PRINT
-# 4420  GOTO 4530
+def _2800_command_4_fire_photon_torpedoes():
+    import inspect
+    PRINT("NOT YET IMPLEMENTED:", inspect.currentframe().f_code.co_name)
 
-# from 4380
-# 4430  PRINT  USING 4540
-# 4440  PRINT  USING 4550;Q$[1,3],Q$[4,6],Q$[7,9],Q$[10,12],Q$[13,15],Q$[16,18],Q$[19,21],Q$[22,24]
-# 4450  PRINT  USING 4560;Q$[25,27],Q$[28,30],Q$[31,33],Q$[34,36],Q$[37,39],Q$[40,42],Q$[43,45],Q$[46,48],T
-# 4460  PRINT  USING 4570;Q$[49,51],Q$[52,54],Q$[55,57],Q$[58,60],Q$[61,63],Q$[64,66],Q$[67,69],Q$[70,72],C$
-# 4470  PRINT  USING 4580;R$[1,3],R$[4,6],R$[7,9],R$[10,12],R$[13,15],R$[16,18],R$[19,21],R$[22,24],Q1,Q2
-# 4480  PRINT  USING 4590;R$[25,27],R$[28,30],R$[31,33],R$[34,36],R$[37,39],R$[40,42],R$[43,45],R$[46,48],S1,S2
-# 4490  PRINT  USING 4600;R$[49,51],R$[52,54],R$[55,57],R$[58,60],R$[61,63],R$[64,66],R$[67,69],R$[70,72],E
-# 4500  PRINT  USING 4610;S$[1,3],S$[4,6],S$[7,9],S$[10,12],S$[13,15],S$[16,18],S$[19,21],S$[22,24],P
-# 4510  PRINT  USING 4620;S$[25,27],S$[28,30],S$[31,33],S$[34,36],S$[37,39],S$[40,42],S$[43,45],S$[46,48],S
-# 4520  PRINT  USING 4540
 
-# from 4520, 4420
-# 4530  RETURN
+def _3460_command_5_shield_control():
+    import inspect
+    PRINT("NOT YET IMPLEMENTED:", inspect.currentframe().f_code.co_name)
+
+
+def _3560_command_6_damage_control_report():
+    import inspect
+    PRINT("NOT YET IMPLEMENTED:", inspect.currentframe().f_code.co_name)
+
+
+def _4630_command_7_call_on_libray_computer():
+    import inspect
+    PRINT("NOT YET IMPLEMENTED:", inspect.currentframe().f_code.co_name)
+
+
+class EnterpriseDeadInSpace(Exception):
+    ...
+
+
+def _3920_enterprise_dead_in_space():
+    PRINT("THE ENTERPRISE IS DEAD IN SPACE.  IF YOU SURVIVE ALL IMPENDING")
+    PRINT("ATTACK YOU WILL BE DEMOTED TO THE RANK OF PRIVATE")
+    # 3940 if IF K3 <= 0 THEN 4020
+    while not (K3 <= 0):
+        # 3950
+        GOSUB_3790()
+        # 3960 GOTO 3940
+    # 4020
+    PRINT("THERE ARE STILL", K9, " KLINGON BATTLE CRUISERS")
+    raise EnterpriseDeadInSpace()
+
+
+class TimeOver(Exception):
+    ...
+
+
+def _3970_time_over():
+    PRINT()
+    PRINT("IT IS STARDATE", T)
+    # 3990 GOTO 4020
+    PRINT("THERE ARE STILL", K9, " KLINGON BATTLE CRUISERS")
+    raise TimeOver()
+
+
+def GOSUB_3790():
+    # 3790
+    if C_ != "DOCKED":
+        # 3820
+        if K3 <= 0:
+            # 3910
+            ...
+        else:
+            # 3830
+            global I, S
+            for I in range(1, 3 + 1):
+                # 3840
+                if K[I][3] <= 0:
+                    # 3900 NEXT I
+                    ...
+                else:
+                    # 3850
+                    H = (K[I][3] / FND(0)) * (2 * RND(1))
+                    S = S - H
+                    _3880 = IMAGE(_4D, " UNIT HIT ON ENTERPRISE AT SECTOR ", D, ",", D, "   (", _4D, " LEFT)")
+                    PRINT_USING(_3880, H, K[I][1], K[I][2], S)
+                    # 3890
+                    if S < 0:
+                        _4000_enterprise_destroyed()
+                    else:
+                        # 3900 NEXT I
+                        ...
+            # 3900 NEXT I
+        # 3910 RETURN
+    else:
+        # 3800
+        PRINT("STAR BASE SHIELDS PROTECT THE ENTERPRISE")
+        # 3810 RETURN
+
+
+class EnterpriseDestroyed(Exception):
+    ...
+
+
+def _4000_enterprise_destroyed():
+    PRINT()
+    PRINT("THE ENTERPRISE HAS BEEN DESTROYED.  THE FEDERATION WILL BE CONQUERED")
+    PRINT("THERE ARE STILL", K9, " KLINGON BATTLE CRUISERS")
+    # 4030 GOTO 230
+    raise EnterpriseDestroyed()
 
 
 def GOSUB_4120():
@@ -378,6 +705,7 @@ def GOSUB_4120():
                     break
         if break_flag:
             break
+    global D0, C_, E, P, S
     if not break_flag:
         # 4200
         # 4220
@@ -400,7 +728,6 @@ def GOSUB_4120():
                 # 4340 GOTO 4380
     if break_flag:
         # 4240
-        global D0, C_, E, P, S
         D0 = 1
         C_ = "DOCKED"
         E = 3000
@@ -411,31 +738,26 @@ def GOSUB_4120():
     # 4380
     if D[2] >= 0:
         # 4430
+        _4540 = IMAGE("---------------------------------")
         PRINT_USING(_4540)
-        PRINT_USING(
-            _4550,
-            Q_[1][3], Q_[4][6], Q_[7][9], Q_[10][12], Q_[13][15], Q_[16][18], Q_[19][21], Q_[22][24])
-        PRINT_USING(
-            _4560,
-            Q_[25][27], Q_[28][30], Q_[31][33], Q_[34][36], Q_[37][39], Q_[40][42], Q_[43][45], Q_[46][48], T)
-        PRINT_USING(
-            _4570,
-            Q_[49, 51], Q_[52, 54], Q_[55, 57], Q_[58, 60], Q_[61, 63], Q_[64, 66], Q_[67, 69], Q_[70, 72], C_)
-        PRINT_USING(
-            _4580,
-            R_[1][3], R_[4][6], R_[7][9], R_[10][12], R_[13][15], R_[16][18], R_[19][21], R_[22][24], Q1, Q2)
-        PRINT_USING(
-            _4590,
-            R_[25][27], R_[28][30], R_[31][33], R_[34][36], R_[37][39], R_[40][42], R_[43][45], R_[46][48], S1, S2)
-        PRINT_USING(
-            _4600,
-            R_[49][51], R_[52][54], R_[55][57], R_[58][60], R_[61][63], R_[64][66], R_[67][69], R_[70][72], E)
-        PRINT_USING(
-            _4610,
-            S_[1][3], S_[4][6], S_[7][9], S_[10][12], S_[13][15], S_[16][18], S_[19][21], S_[22][24], P)
-        PRINT_USING(
-            _4620,
-            S_[25][27], S_[28][30], S_[31][33], S_[34][36], S_[37][39], S_[40][42], S_[43][45], S_[46][48], S)
+        PRINT(''.join(' ' * 9 + str(i + 1) for i in range(0, 9)))
+        PRINT('1234567890' * 10)
+        _4550 = IMAGE(8 * (_X + _3A))
+        PRINT_USING(_4550, *(Q_[3 * i:3 * (i + 1)] for i in range(0, 8)))
+        _4560 = IMAGE(8 * (_X + _3A), _8X, "STARDATE", _8X, _5D)
+        PRINT_USING(_4560, *(Q_[3 * i:3 * (i + 1)] for i in range(8, 16)), T)
+        _4570 = IMAGE(8 * (_X + _3A), _8X, "CONDITION", _8X, _6A)
+        PRINT_USING(_4570, *(Q_[3 * i:3 * (i + 1)] for i in range(16, 24)), C_)
+        _4580 = IMAGE(8 * (_X + _3A), _8X, "QUADRANT", _9X, _D, ",", _D)
+        PRINT_USING(_4580, *(R_[3 * i:3 * (i + 1)] for i in range(0, 8)), Q1, Q2)
+        _4590 = IMAGE(8 * (_X + _3A), _8X, "SECTOR", _11X, _D, ",", _D)
+        PRINT_USING(_4590, *(R_[3 * i:3 * (i + 1)] for i in range(8, 16)), S1, S2)
+        _4600 = IMAGE(8 * (_X + _3A), _8X, "ENERGY", _9X, _6D)
+        PRINT_USING(_4600, *(R_[3 * i:3 * (i + 1)] for i in range(16, 24)), E)
+        _4610 = IMAGE(8 * (_X + _3A), _8X, "PHOTON TORPEDOES", _3D)
+        PRINT_USING(_4610, *(S_[3 * i:3 * (i + 1)] for i in range(0, 8)), P)
+        _4620 = IMAGE(8 * (_X + _3A), _8X, "SHIELDS", _8X, _6D)
+        PRINT_USING(_4620, *(S_[3 * i:3 * (i + 1)] for i in range(8, 16)), S)
         PRINT_USING(_4540)
         # 4530 RETURN
     else:
@@ -445,17 +767,6 @@ def GOSUB_4120():
         PRINT()
         # 4420 GOTO 4530
     # 4530 RETURN
-
-
-_4540 = IMAGE("---------------------------------")
-_4550 = IMAGE(8 * (_X + _3A))
-_4560 = IMAGE(8 * (_X + _3A), _8X, "STARDATE", _8X, _5D)
-_4570 = IMAGE(8 * (_X + _3A), _8X, "CONDITION", _8X, _6A)
-_4580 = IMAGE(8 * (_X + _3A), _8X, "QUADRANT", 9 * _X, _D, ",", _D)
-_4590 = IMAGE(8 * (_X + _3A), _8X, "SECTOR", 11 * _X, _D, ",", _D)
-_4600 = IMAGE(8 * (_X + _3A), _8X, "ENERGY", 9 * _X, 6 * _D)
-_4610 = IMAGE(8 * (_X + _3A), _8X, "PHOTON TORPEDOES", _3D)
-_4620 = IMAGE(8 * (_X + _3A), _8X, "SHIELDS", _8X, *_D)
 
 
 def GOSUB_5380():
@@ -471,6 +782,21 @@ def GOSUB_5380():
         GOSUB_5680()
 
 
+def GOSUB_5610():
+    # ****  PRINTS DEVICE NAME FROM ARRAY *****
+    global S8
+    S8 = R1 * 12 - 11
+    # 5630
+    if S8 > 72:
+        # 5660
+        PRINT(E_[S8 - 72, S8 - 61])
+    else:
+        # 5640
+        PRINT(D_[S8, S8 + 11])
+        # 5650 GOTO 5670
+    # 5670 RETURN
+
+
 def GOSUB_5680():
     global Z1, Z2, S8, Z3
     # *******  STRING COMPARISON IN QUADRANT ARRAY **********
@@ -479,13 +805,13 @@ def GOSUB_5680():
     S8 = Z1 * 24 + Z2 * 3 - 26
     Z3 = 0
     if not (S8 > 72):
-        if Q_[S8][S8 + 2] != A_:
+        if Q_[S8:S8 + 2] != A_:
             return
         else:
             Z3 = 1
             return
     if not (S8 > 144):
-        if R_[S8 - 72][S8 - 70] != A_:
+        if R_[S8 - 72:S8 - 70] != A_:
             return
     else:
         Z3 = 1
@@ -493,19 +819,30 @@ def GOSUB_5680():
 
 
 def GOSUB_5510():
-    global S8
+    global S8, Q_, R_, S_, A_
     # ******  INSERTION IN STRING ARRAY FOR QUADRANT ******
     S8 = Z1 * 24 + Z2 * 3 - 26
-    if not (S8 > 72):
-        Q_[S8][S8 + 2] = A_
-        return
-    if not (S8 > 144):
-        R_[S8 - 72][S8 - 70] = A_
-        return
-    S_[S8 - 144][S8 - 142] = A_
-    return
+    assert len(Q_) == 72, len(Q_)
+    assert len(R_) == 72, len(R_)
+    assert len(S_) == 48, len(R_)
+    if S8 <= 72:
+        Q_[S8] = A_[1]
+        Q_[S8 + 1] = A_[2]
+        Q_[S8 + 2] = A_[3]
+        assert len(Q_) == 72, len(Q_)
+    elif S8 <= 144:
+        R_[S8 - 72] = A_[1]
+        R_[S8 - 72 + 1] = A_[2]
+        R_[S8 - 72 + 2] = A_[3]
+        assert len(R_) == 72, len(R_)
+    else:
+        S_[S8 - 144] = A_[1]
+        S_[S8 - 144 + 1] = A_[2]
+        S_[S8 - 144 + 2] = A_[3]
+        assert len(S_) == 48, len(R_)
 
 
+#                                                              <*>
 def GOSUB_5820():
     PRINT("     INSTRUCTIONS:")
     PRINT("<*> = ENTERPRISE")
