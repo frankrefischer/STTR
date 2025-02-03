@@ -43,7 +43,7 @@ _Functions return a numeric result; they may be used as expressions or parts of 
 |__`INT(X)`__|<code>330 PRINT __INT(X)__</code>|Gives the largest integer &le; the expression (X).|
 |__`RND(X)`__|<code>350 PRINT __RND(X)__</code>|Generates a random number greater than or equal to 0 and less than 1; the argument (X) may have any value. A negative argument is used to restart a sequence of random numbers.|
 |__`SQR(X)`__|<code>360 PRINT __SQR(X)__</code>|Gives the square root of the expression (X); expression must have a positive value.|
-|__`TIM(X)`__|<code>460 PRINT __TIM(X)__</code>|Gives current minute (X=0) or hour (X=1).|
+|__`TIM(X)`__|<code>460 PRINT __TIM(X)__</code>|Gives current minute (X=0) 0-59 or hour (X=1) 0-23.|
 
 ## MATRICES
 _NOTES:_
@@ -109,3 +109,19 @@ _NOTE: The numeric values used in logical evaluation are:_
 |__`REM`__ |<code>630 __REM__ ANY TEXT</code>|Inserts non-executable remarks in a program.||
 |__`RETURN`__ |<code>660 __RETURN__</code>|Subroutine exit; transfers control to the statement following the matching GOSUB.|
 
+The PRINT statement provides a simple and direct means for BASIC programs to display values on your terminal.  
+The items to be printed (print list) are evaluated and displayed in sequential order from left to right in one or more lines. Each item in the print list is separated from the following one by either a semicolon or a comma.  
+A semicolon serves only to separate items in the print list; the first character of the following item's value is printed immediately after the last character of the preceding item's value.  
+A new line is begun whenever the next value will not fit on the remainder of the current line.
+
+A comma serves another purpose besides separating print list items.  
+Each line on the terminal is divided into four consecutive fields of 15 character positions and a final field of 12 character positions (72 character positions per line).  
+When a comma follows an item which did not completely fill the last of the one or more fields its value occupies, blanks are added to complete that field.  
+Thus the value of an item following a comma always begins at the start of a field.  
+If the previously completed field was the last one in the current line, the next item's value will be printed on a new line.  
+Since most values occupy less than fifteen character positions, the usual effect is a table of five columns per line.
+
+If a comma or semicolon follows the last item in the print list, the print list of the next PRINT statement executed will be printed as a continuation of the current line.  
+Otherwise, the current line is completed and the next PRINT statement will begin printing values on the next line.  
+A PRINT statement with no item list either completes the previous line, if it ended with a comma or semicolon, or skips the current line.  
+This is frequently used to produce a blank line.

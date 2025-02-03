@@ -23,49 +23,80 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 180  PRINT "                          STAR TREK "
 190  PRINT "DO YOU WANT INSTRUCTIONS (THEY'RE LONG!)";
 200  INPUT A$
-209  REM --- if no start program
+209  REM --- if "no" start program
 210  IF A$ <> "YES" THEN 230
 219  REM --- else show instructions
 220  GOSUB 5820
 
 
 230  REM *****  PROGRAM STARTS HERE *****
+
+239  REM 70 spaces 
 240  Z$="                                                                      "
 
 249  REM --- PRINT 11 newlines
 250  GOSUB 5460
 
-259  REM --- allocate arrays and strings
+254  REM --- allocate arrays and strings
+
+255  REM --- G[8,8]
+256  REM --- C[9,2]
+257  REM --- K[3,3] Number of klingons at current sector: integer 0-3
+258  REM --- N[3]   Temporary copy of quadrant neighbourhood
+259  REM --- Z[8,8] Cumulative galactic record
 260  DIM G[8,8],C[9,2],K[3,3],N[3],Z[8,8]
+
+263  REM --- C$[6]  
+264  REM --- D$[72] 
+265  REM --- E$[24] 
+266  REM --- A$[3]  
+267  REM --- Q$[72] 
+268  REM --- R$[72] 
+269  REM --- S$[48] 
 270  DIM C$[6],D$[72],E$[24],A$[3],Q$[72],R$[72],S$[48]
+
+279  REM --- String with 70 spaces
 280  DIM Z$[72]
 
-289  REM --- start stardate is random from 2000-3900
+283  REM --- 0.0 <= RND(1) < 1.0
+284  REM --- 0.0 <= RND(1)*20 < 20.0
+285  REM --- 20.0 <= RND(1)*20+20 < 40.0
+286  REM --- 20 <= INT(RND(1)*20+20) <= 39
+287  REM --- 2000 <= INT(RND(1)*20+20)*100 <= 3900
+288  REM --- T        stardate: integer 2000-3900
+289  REM --- T0 start stardate: integer 2000-3900
 290  T0=T=INT(RND(1)*20+20)*100
 
-299  REM --- player has 30 stardates to succeed
+299  REM --- T9 number of stardates in which player must succeed
 300  T9=30
 
-309  REM --- enterprise is initially not docked
+309  REM --- D0 is enterprise docked? : integer 0-1
 310  D0=0
 
-319  REM --- start energy is 3000 units
+317  REM --- start energy is 3000 units
+318  REM --- E  current units of energy integer: 0-3000
+319  REM --- E0 maximum energy integer: 3000
 320  E0=E=3000
 
-329  REM --- start photons are 10
+328  REM --- P  number of available photon torpedoes: integer 0-10
+329  REM --- P0 maximum number of available photon torpedoes: integer 10
 330  P0=P=10
 
-339  REM --- shield energy for fresh klingon ships is 200
+339  REM --- S9 initial shield energy for klingon ships: integer 200
 340  S9=200
 
-348  REM --- start shield energy units is 0
-349  REM --- H8 is useless, maybe a forgotten debug flag
+348  REM --- S shield energy units: integer 0
+349  REM --- H8 later on checked for H8=1 but never set, maybe a forgotten debug flag
 350  S=H8=0
 
-359  REM --- compute distance from current sector (S1,S2) to klingon ship I coords: (K[I,1],K[I,2])
+356  REM --- compute distance from current sector (S1,S2) to i-th klingon ship
+357  REM --- I: i-th klingon ship
+358  REM --- K[I,1], K[I,2]: x coord, y, coord of i-th klingon ship
+359  REM --- S1, S2 x coord, y coord: integer 1-8
 360  DEF FND(D)=SQR((K[I,1]-S1)^2+(K[I,2]-S2)^2)
 
-369  REM --- choose random quadrant coordinates (1-8,1-8)
+368  REM --- choose random quadrant coordinates (1-8,1-8)
+369  REM --- Q1, Q2 current quadrant x coord, y coord: integer 1-8
 370  Q1=INT(RND(1)*8+1)
 380  Q2=INT(RND(1)*8+1)
 
@@ -73,7 +104,10 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 390  S1=INT(RND(1)*8+1)
 400  S2=INT(RND(1)*8+1)
 
-409  REM --- start timestamp in minutes: minute + 60*hour
+406  REM --- T7 start timestamp in minutes = minute + 60*hour: integer 0-1439
+407  REM --- current minute: 0 <= TIM(0) <= 59 
+408  REM --- current hour:   0 <= TIM(1) <= 23
+409  REM --- 23*60+59 = 1200+ 180 + 59 = 1380 + 59 = 1439 
 410  T7=TIM(0)+60*TIM(1)
 
 416  REM --- course deltas
@@ -100,8 +134,14 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 470  D$[49]="PHOTON TUBESDAMAGE CNTRL"
 480  E$="SHIELD CNTRLCOMPUTER"
 
-489  REM --- initialize klingons to destroy, available stardates, starbases
+487  REM --- initialize klingons to destroy, available stardates, starbases
+488  REM --- B9 number of starbases in galaxy: integer 0-64
+489  REM --- K9 number of klingons left in galaxy: integer 0-192
+488  REM --- B3 number of starbases in sector: integer 0-1
+489  REM --- K3 number of klingons left in sector: integer 0-3
+489  REM --- S3 number of stars in sector: integer 1-8
 490  B9=K9=0
+
 499  REM --- for each quadrant (1,1)...(8,8): 
 500  FOR I=1 TO 8
 510  FOR J=1 TO 8
@@ -125,8 +165,8 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 640  K3=1
 650  K9=K9+1
 
-558  REM ---  4% chance: 1 starbase
-559  REM --- 96% chance: no starbase
+658  REM ---  4% chance: 1 starbase
+659  REM --- 96% chance: no starbase
 660  R1=RND(1)
 670  IF R1>.96 THEN 700
 680  B3=0
@@ -153,11 +193,14 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 
 780  PRINT "YOU MUST DESTROY"K9;" KLINGONS IN"T9;" STARDATES WITH"B9;" STARBASES"
 
-808  REM --- enter new quadrant
-809  REM --- jumped at 810 from 2320: after navigation to new quadrant
+805  REM --- enter new quadrant
+806  REM --- jumped at 810 from 2320: after navigation to new quadrant
+807  REM --- B3 number of starbases in sector: integer 0-1
+808  REM --- K3 number of klingons left in sector: integer 0-3
+809  REM --- S3 number of stars in sector: integer 1-8
 810  K3=B3=S3=0
 
-819  REM --- 
+819  REM --- if quadrant coords are out of range
 820  IF Q1<1 OR Q1>8 OR Q2<1 OR Q2>8 THEN 920
 
 829  REM --- get number of klingons at current quadrant
@@ -170,7 +213,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 859  REM --- get number of stars at current quadrant
 860  S3=G[Q1,Q2]-INT(G[Q1,Q2]*.1)*10
 
-869  REM --- if any klingons and  shields <=200
+869  REM --- if any klingons and shields <=200
 870  IF K3=0 THEN 910
 880  IF S>200 THEN 910
 
@@ -321,7 +364,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 
 1609  REM --- damage control
 
-1609  REM --- for all eight damage sections: if damage value in section is below zero the regain 1 point
+1609  REM --- for all eight damage sections: if damage value in section is below zero then regain 1 point
 1610  FOR I=1 TO 8
 1620  IF D[I] >= 0 THEN 1640
 1630  D[I]=D[I]+1
@@ -336,7 +379,7 @@ REM  Extracted from HP tape image 16-Nov-2003 by Pete Turnbull
 1669  REM --- 50% chance that section gets damages, else it gets repaired
 1670  IF RND(1) >= .5 THEN 1750
 
-1679  REM --- apply damage to random section: 1-5 points
+1679  REM --- apply damage to random section: 1.0 - 5.0 points
 1680  D[R1]=D[R1]-(RND(1)*5+1)
 
 1689  REM --- display damage control report with info that something got damaged

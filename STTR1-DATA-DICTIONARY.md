@@ -9,7 +9,7 @@
 |__`B1`__||Used as buffer for course or torpedo course input|`0 = cancel command`<br>`1-8 =valid course`<br>`others = input course again`|
 |__`B3`__|`integer`|Number of starbases at current sector.|`0-1`|
 |__`B9`__|`integer`|Number of starbases in galaxy.|`1-64`|
-|__`C`__|__`DIM C[9,2]`__|||
+|__`C`__|__`DIM C[9,2]`__|`integer`|`-1 0 +1`|
 |__`C1`__||||
 |__`C2`__||||
 |__`C$`__|__`DIM C$[6]`__|Condition|`DOCKED`<br>`GREEN`<br>`RED`<br>`YELLOW`|
@@ -19,12 +19,12 @@
 |__`E`__|`integer`|Current units of energy; initialized to __`E0`__.|`0-3000`|
 |__`E0`__|`integer`|Maximum energy.|`3000`|
 |__`E$`__|__`DIM E$[24]`__||`"SHIELD CNTRLCOMPUTER"`|
-|__`G`__|__`DIM G[8,8]`__|||
+|__`G`__|__`DIM G[8,8]`__|Galaxy Map: x,y|`klingons*100+starbases*10+stars`|
 |__`H`__||Hit points on Enterprise or on Klingon.||
 |__`H8`__||Mysterious. Checked for H8 = 1 but set to 0. Looks like its a useless variable|´0´|
 |__`I`__||||
 |__`J`__||||
-|__`K`__|__`DIM G[3,3]`__|Klingon data.|<code>K[I,1],K[I,2]&nbsp;=&nbsp;sector&nbsp;coordinates&nbsp;of&nbsp;Klingon&nbsp;I</code><br><code>K[I,3]&nbsp;=&nbsp;points&nbsp;left&nbsp;on&nbsp;Klingon&nbsp;I</code><br>`with I from 1 to 3`|
+|__`K`__|__`DIM K[3,3]`__|Klingon data.|<code>K[I,1],K[I,2]&nbsp;=&nbsp;sector&nbsp;coordinates&nbsp;of&nbsp;Klingon&nbsp;I</code><br><code>K[I,3]&nbsp;=&nbsp;points&nbsp;left&nbsp;on&nbsp;Klingon&nbsp;I</code><br>`with I from 1 to 3`|
 |__`K3`__|`integer`|Number of klingons at current sector.|`0-3`|
 |__`K7`__|`integer`|Initial number of klingons in galaxy; used for score computation at end of game.|`0-192`|
 |__`K9`__|`integer`|Number of klingons left in galaxy.|`1-192`|
@@ -43,14 +43,14 @@
 |__`S2`__|`integer`|Current sector y-coordinate; initialized to random value.|`1-8`|
 |__`S3`__|`integer`|Number of stars at current sector.|`1-8`|
 |__`S8`__||||
-|__`S9`__||Initial points for Klingons.|`200`|
+|__`S9`__||Initial shield energy for klingon ships.|`200`|
 |__`S$`__|__`DIM S$[48]`__|||
-|__`T`__|`integer`|Start stardate initialized to __`T0`__.|from `T0` to `T0+T9`|
-|__`T0`__|`integer`|Current stardate; initialized to a random value from 2000 to 3900.|`2000-3900`|
-|__`T7`__|`integer`|Start timestamp in minutes; initialized to `minute+60*hour`.|`0-1380`|
+|__`T`__|`integer`|Current stardate initialized to __`T0`__.|from `T0` to `T0+T9`|
+|__`T0`__|`integer`|Start stardate; initialized to a random value from 2000 to 3900.|`2000-3900`|
+|__`T7`__|`integer`|Start timestamp in minutes; initialized to `minute+60*hour`.|`0-1439`|
 |__`T9`__|`integer`|Number of stardates, in which player must succeed.|`30`|
 |__`W1`__|`float`|Used as input buffer for warp factor.|`0-8 = valid warp factor`<br>`others =  input course again`|
-|__`X`__||Used as torpedo track x-coordinate.||
+|__`X`__||Used local variable for number of klingons or torpedo track x-coordinate.||
 |__`X1`__||||
 |__`X2`__||||
 |__`Y`__||Used as torpedo track y-coordinate.||
@@ -58,4 +58,4 @@
 |__`Z1`__||||
 |__`Z2`__||||
 |__`Z3`__||||
-|__`Z$`__|__`DIM Z$[72]`__||String with 70 whitespaces.|
+|__`Z$`__|__`DIM Z$[72]`__||String with 70 spaces.|
